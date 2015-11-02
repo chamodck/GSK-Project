@@ -787,7 +787,7 @@ public class Analyze extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please Filter Data!");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
+	//Departments and Accident Types analyze Graph generate 
     private void btnDAGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDAGraphActionPerformed
         if (tableDepartmentAccident != null) {
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -848,7 +848,7 @@ public class Analyze extends javax.swing.JFrame {
     private void ddDDepartmentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ddDDepartmentMouseClicked
 
     }//GEN-LAST:event_ddDDepartmentMouseClicked
-
+	//Last week last year wage filer karanakota wena tika
     private void ddDTimePeriodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddDTimePeriodActionPerformed
         Object obj = evt.getSource();
         if (obj == ddDTimePeriod) {
@@ -941,7 +941,7 @@ public class Analyze extends javax.swing.JFrame {
     private void dtDAFromPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dtDAFromPropertyChange
         // TODO add your handling code here:
     }//GEN-LAST:event_dtDAFromPropertyChange
-
+	// filter button
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         if (departmentAccidentTableLoad(dtDAFrom.getDate(), dtDATo.getDate())) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
@@ -1071,6 +1071,7 @@ public class Analyze extends javax.swing.JFrame {
             ddDDepartment.addItem(dep);
         }
     }
+	//person wise table eka load karana widiha
     public void personWiseTableload() {
         multiMap = new HashMap<Object, Object[]>();
         userList = new ArrayList<User>();
@@ -1257,7 +1258,8 @@ public class Analyze extends javax.swing.JFrame {
             }
         }
     }
-
+	
+	//departmet wise table eka load karana widiha
     public boolean departmentAccidentTableLoad(Date from1, Date to1) {
         depHashMap = new HashMap<Object, Object[]>();
         ArrayList<Object[]> depNameID = dbOps.getDepartmentNameID();

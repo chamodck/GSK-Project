@@ -54,6 +54,7 @@ private void setIcon() {
         btnDeleteUser = new javax.swing.JButton();
         btnResetPassword = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        btnBackup = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("User Table");
@@ -125,6 +126,13 @@ private void setIcon() {
             }
         });
 
+        btnBackup.setText("Backup");
+        btnBackup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackupActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -145,6 +153,10 @@ private void setIcon() {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton1)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnBackup)
+                .addGap(478, 478, 478))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,7 +169,9 @@ private void setIcon() {
                     .addComponent(btnResetPassword))
                 .addGap(35, 35, 35)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 262, Short.MAX_VALUE)
+                .addGap(105, 105, 105)
+                .addComponent(btnBackup)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
                 .addComponent(jButton1))
         );
 
@@ -324,6 +338,17 @@ private void setIcon() {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackupActionPerformed
+        int result=dbOps.getBackup("C:\\Users\\chamod\\Documents\\backup\\backup.sql");
+        if (result==1){
+            JOptionPane.showMessageDialog(this,"Backup Successfull");
+        }else if(result==0){
+            JOptionPane.showMessageDialog(this,"Backup Unsuccessfull");
+        }else{
+            JOptionPane.showMessageDialog(this,"Error while getBackup()!");
+        }
+    }//GEN-LAST:event_btnBackupActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -361,6 +386,7 @@ private void setIcon() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddUser;
+    private javax.swing.JButton btnBackup;
     private javax.swing.JButton btnDeleteUser;
     private javax.swing.JButton btnResetPassword;
     private javax.swing.JButton btnUpdateUser;

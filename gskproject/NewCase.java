@@ -7,12 +7,10 @@
 package gskproject;
 
 import java.awt.Toolkit;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Vector;
 import javax.swing.JOptionPane;
+import java.sql.Date;
+import java.util.Vector;
 
 /**
  *
@@ -37,11 +35,11 @@ public class NewCase extends javax.swing.JFrame {
         actionList=new ArrayList<Action>();
         tableData=new Vector<Vector>();
         setIcon();
+        
     }
     
     
     void loadFrame(){
-        dtDate.setDate(new java.util.Date());
         userList=dbOps.getUser();
         lastObservationID=dbOps.getLastObservationID();
         txtObservationID.setText(Integer.toString(lastObservationID+1));
@@ -122,7 +120,7 @@ public class NewCase extends javax.swing.JFrame {
         jLabel12.setForeground(new java.awt.Color(255, 102, 0));
         jLabel12.setText("New Case");
 
-        ddKindOfSource.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "EHS Gemba", "LOTO", "Other" }));
+        ddKindOfSource.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Gemba", "Loto", "Kind1", "Kind2" }));
 
         dtDate.setDateFormatString("dd MMM yyyy");
 
@@ -139,7 +137,7 @@ public class NewCase extends javax.swing.JFrame {
             }
         });
 
-        ddObservationType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Chemical Handling", "Electricity", "Fire & Emergency Preparedness", "Gravity", "House Keeping", "Sharp Edges/Sharp Objects", "TRIP/SLIP", "Work Place Transportation" }));
+        ddObservationType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Type1", "Type2", "Type3", "Type4" }));
 
         ddZAPState.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Open", "Close" }));
 
@@ -346,16 +344,14 @@ public class NewCase extends javax.swing.JFrame {
             //java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
             boolean result1 = dbOps.addObservation(observation);
             if (result1) {
-                
+                JOptionPane.showMessageDialog(this, "Observation Saved.");
                 for (Action a : actionList) {
                     boolean result2 = dbOps.addAction(a);
                     if (result2 == false) {
                         JOptionPane.showMessageDialog(this, "Error occured in actions inserting !");
                         return;
                     }
-                    
                 }
-                JOptionPane.showMessageDialog(this,"Observation Saved with "+actionList.size()+" actions");
                 //JOptionPane.showMessageDialog(this, "Action Saved.");
                 this.dispose();
             } else {

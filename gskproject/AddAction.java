@@ -179,6 +179,26 @@ public class AddAction extends javax.swing.JFrame {
         action.setPriorityNumber(ddPriorityNumber.getSelectedIndex()+1);
         NewCase.actionList.add(action);
         
+        /*if(NewAction.actionCount==0){
+            NewAction.contain=new Object[1][3];
+            NewAction.contain[0][0]=txtDescription.getText();
+            NewAction.contain[0][1]=ddActionStatus.getSelectedItem().toString();
+            NewAction.contain[0][2]=ddPriorityNumber.getSelectedIndex()+1;
+            NewAction.actionCount++;
+        }else{
+            Object[][] temp=new Object[NewAction.actionCount+1][3];
+            for(int i=0;i<NewAction.actionCount;i++){
+                for(int j=0;j<3;j++){
+                    temp[i][j]=NewAction.contain[i][j];
+                }
+            }
+            temp[NewAction.actionCount][0]=txtDescription.getText();
+            temp[NewAction.actionCount][1]=ddActionStatus.getSelectedItem().toString();
+            temp[NewAction.actionCount][2]=ddPriorityNumber.getSelectedIndex()+1;
+            NewAction.contain=temp;
+            NewAction.actionCount++;
+        }*/
+        
         Vector<Object> row=new Vector<Object>();
         row.addElement(txtDescription.getText());
         row.addElement(ddActionStatus.getSelectedItem().toString());
