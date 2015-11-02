@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="499a2557-fd8e-4ad6-ad77-b216dd29442d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="summary" class="java.lang.String"/>
+	<parameter name="totalCase" class="java.lang.String"/>
+	<parameter name="openCase" class="java.lang.String"/>
+	<parameter name="closeCase" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="120" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="595" height="120" uuid="4e967b14-75b5-449f-8177-01162511ae12"/>
+				<imageExpression><![CDATA["C:\\Users\\chamod\\Documents\\NetBeansProjects\\GskProject\\src\\Report\\GSKdepartmentWiseTitle.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="478" y="10" width="100" height="20" uuid="de8c5740-0a76-41d9-8002-2da480e24e4c"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="120" splitType="Stretch">
+			<staticText>
+				<reportElement x="26" y="0" width="53" height="20" uuid="0ab5c33b-b97a-402e-956d-3757b5c77bed"/>
+				<text><![CDATA[Summary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="49" y="49" width="105" height="20" uuid="ec9aec2b-b738-4477-88e0-d8943a8263d6"/>
+				<text><![CDATA[Total reported Cases : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="69" width="117" height="20" uuid="3deb3664-ca02-4b7f-9785-912642a50492"/>
+				<text><![CDATA[Number of Open Cases : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="89" width="128" height="20" uuid="abf97cba-0f29-4d02-9109-19967692898c"/>
+				<text><![CDATA[Number of Closed Cases : ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="154" y="49" width="52" height="20" uuid="c98f6073-7527-4a04-98ef-49813ec1079a"/>
+				<textFieldExpression><![CDATA[$P{totalCase}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="69" width="52" height="20" uuid="cbf9e55c-fe5e-49eb-8dec-ad15c43c1e17"/>
+				<textFieldExpression><![CDATA[$P{openCase}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="89" width="52" height="20" uuid="e0f5aa2f-07c9-40de-8147-e62419329070"/>
+				<textFieldExpression><![CDATA[$P{closeCase}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="49" y="20" width="157" height="20" uuid="9ab0e7df-c8b8-43ec-a9b8-d50e658621e4"/>
+				<textFieldExpression><![CDATA[$P{summary}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="38" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="152" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="132" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="63" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="43" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="595" height="43" uuid="55a16973-6a1b-414f-a356-47827533251d"/>
+				<imageExpression><![CDATA["C:\\Users\\chamod\\Documents\\NetBeansProjects\\GskProject\\src\\Report\\GSKdepartmentWiseFooter.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="567" y="23" width="28" height="20" uuid="b2f39084-9899-4516-9fd9-629762f4359c"/>
+				<textElement>
+					<font isItalic="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

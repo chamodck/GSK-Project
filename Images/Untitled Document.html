@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0037)http://localhost/MyFirst/addAPart.php -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Untitled Document</title>
+<style type="text/css">
+#apDiv1 {
+	position: absolute;
+	width: 442px;
+	height: 365px;
+	z-index: 1;
+	left: 228px;
+	top: 130px;
+	border: groove;
+}
+#apDiv2 {
+	border: groove;
+	position: absolute;
+	width: 410px;
+	height: 365px;
+	z-index: 2;
+	left: 675px;
+	top: 130px;
+}
+
+</style>
+
+<script type="text/javascript">
+	var categories = ["Exterior","Interior","Performance","Replacement","Suspension","Wheels & Tires"]; 
+var subcats = {"0":{"Exterior":[]},"1":{"Interior":[]},"2":{"Performance":[]},"3":{"Replacement":[]},"4":{"Suspension":[]},"5":{"Wheels & Tires":[]},"Performance":["Air Filters","Air Intake Systems","Carburetors","Catalytic Converters","Clutches","Exhaust Systems","Exhaust Tips","Fuel Injection Kits","Fuel Injection Pump","Headers","Ignition Coil & Wire Sets","Mass Air Flow Sensors","Mufflers","Oil Filters","Power Programmers","Throttle Body","Throttle Body Spacer"],"Suspension":["Air Leveling Kit","Body Lift Kit","Coil Springs","Leaf Springs","Leveling Kits","Lowering Kits","Lowering Springs","Shocks","Suspension Lift Kit","Sway Bar","Sway Bar Bushing","Sway Bar Kit","Sway Bar Link Bushing"],"Replacement":["Alternators","Ball Joints","Brake Pads","Brake Rotors","Bumpers","Control Arms","Fenders","Gas Tanks","Grille Assemblies","Header Panel","Headlight Assemblies","Hoods","Oxygen Sensors","Radiators","Rocker Panel","Spark Plugs","Starters","Taillight Assemblies"],"Exterior":["Bed Liners & Mats","Bed Rails","Bug Deflectors","Bumper Covers","Car Covers","Cargo Carriers","Fender Flares","Grille Guards & Bull Bars","Headlights","Hitches","Hood Scoops","Mirrors","Mud Guards","Nerf Bars","Running Boards","Taillights","Tonneau Covers"],"Interior":["Dash Covers","Floor Liners\/Mats","Seat Covers"],"Wheels & Tires":["Hub Cap","Lug Nut","Wheel & Rims","Wheel Bearings & Hubs","Wheel Covers","Wheel Hub","Wheel Locks"]}; 
+var years = ["2015","2014","2013","2012","2011","2010"]; 
+		
+   	function loadCategories(){
+        var select = document.getElementById("categorySelect");
+        select.onchange = updateSubCats;
+        for(var i = 0; i < categories.length; i++){
+          select.options[i+1] = new Option(categories[i],categories[i]);          
+       }
+    }
+	
+	function updateSubCats(){
+        var catSelect = this;
+        var catValue = this.value;
+		
+        var subcatSelect = document.getElementById("subcatsSelect");
+        //subcatSelect.options.length = 0; //delete all options if any present
+		if(catValue=="empty"){
+			subcatSelect.options.length = 1;
+		}else{
+        	for(var i = 0; i < subcats[catValue].length; i++){
+          		subcatSelect.options[i+1] = new Option(subcats[catValue][i],subcats[catValue][i]);
+       		}
+		}
+  	}
+	
+	function loadYear(){
+		
+        var select = document.getElementById("year");
+        //select.onchange = loadMadeBy;
+        for(var i = 0; i < years.length; i++){
+          select.options[i+1] = new Option(years[i],years[i]);    
+		}
+    }
+	
+	
+	function onloadFunction(){
+		loadCategories();
+		loadYear();
+	}
+	
+	function loadMadeBy(str) {
+		//alert(str);
+		if (str == "empty") {
+			document.getElementById("madeBy").innerHTML = "";
+			return;
+		} else { 
+			if (window.XMLHttpRequest) {
+				// code for IE7+, Firefox, Chrome, Opera, Safari
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				// code for IE6, IE5
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					document.getElementById("madeBy").innerHTML = xmlhttp.responseText;
+				}
+			}
+			xmlhttp.open("GET","getMadeBy.php?q="+str,true);
+			xmlhttp.send();
+		}
+	}
+
+</script>
+
+</head>
+
+<body onload="onloadFunction()">
+
+<h1 align="center">Add a Autopart</h1>
+
+<form name="addAPart" method="post" action="./Untitled Document_files/Untitled Document.html">
+<div id="apDiv1">
+<h3 align="center">Autopart details</h3>
+  	Category :
+    	<select id="categorySelect" name="categorySelect">	
+      		<option value="empty">--Select a Category--</option>
+    	<option value="Exterior">Exterior</option><option value="Interior">Interior</option><option value="Performance">Performance</option><option value="Replacement">Replacement</option><option value="Suspension">Suspension</option><option value="Wheels &amp; Tires">Wheels &amp; Tires</option></select>
+  
+  <br>
+    Sub Category : 
+    <select id="subcatsSelect">
+    	<option>--Select a Subcategory--</option>
+    </select>
+    <br>
+    Description : 
+    <textarea name="textarea" id="textarea" cols="45" rows="5"></textarea>
+    <br>
+    Quantity : <input type="text" name="textfield" id="textfield">
+    <br>
+    Search Keyword : <input type="text" name="textfield" id="textfield">Ex:Mirror,Taillight
+    <br>
+    Brand New or Used : 
+    <input type="radio" name="newOrUsed" value="brandNew">Brand New
+    <input type="radio" name="newOrUsed" value="used">Used  
+    <br>
+    Price (Rs) : 
+    <input type="text" name="textfield" id="textfield">
+    <br>
+  
+</div>
+
+
+<div id="apDiv2">
+  <h3 align="center">Vehicle Details</h3>
+  Year :
+    <select id="year" onchange="loadMadeBy(this.value)">	
+      <option value="empty">--Select a Year--</option>
+    <option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option></select>
+    <br>
+    Made By :
+    <select id="madeBy"></select>
+    <br>
+    Model :
+    <select id="select" name="category">
+    	<option value="2010">2010</option>
+        <option value="2011">2011</option>
+        <option value="2012">2012</option>
+    </select>
+    <br>
+    Submodel :
+    <select id="select" name="category" onchange="">	
+    </select>
+    <br>
+    Engine :
+    <select id="select" name="category" onchange="">
+    </select>
+  	<br>
+    <input type="submit" name="submit">
+  
+</div>
+</form>
+
+
+
+</body></html>
