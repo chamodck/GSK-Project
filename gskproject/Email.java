@@ -10,7 +10,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import javafx.stage.FileChooser;
+
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.swing.JFileChooser;
@@ -38,16 +38,13 @@ public class Email extends javax.swing.JFrame {
                 n++;
                 progressBar.setValue(n);
             }else{
-                timer.stop();
-                //if(finalCout==1){//get the count until send the mail
-                
-                    JOptionPane.showMessageDialog(null, "Email send successfully");
-                    progressBar.setValue(0);
-                    receiverEmail.setText("");
-                    txtSubject.setText("");
-                    txtmessage.setText("");
-                    txtFilePath.setText("");
-                //}
+                timer.stop();//stop the timer it means email successfully send
+                JOptionPane.showMessageDialog(null, "Email send successfully");
+                progressBar.setValue(0);//set the bar to 0
+                receiverEmail.setText("");//set the email text ""
+                txtSubject.setText("");
+                txtmessage.setText("");
+                txtFilePath.setText("");
                 
             }
         
@@ -197,7 +194,7 @@ public class Email extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
-        timer.start();
+        timer.start();//start the timer
         //Email sendEmail = new Email();//crete the Email object
         String receiverMailAddress = receiverEmail.getText().toString();//get the receiver email from text field
         //System.out.println(receiverEmail.toString());
