@@ -64,6 +64,12 @@ public class NewAccount extends javax.swing.JFrame {
 
         jLabel2.setText("User ID");
 
+        txtUserID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUserIDActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("Username");
 
         ddDepartment.setToolTipText("");
@@ -296,6 +302,10 @@ public class NewAccount extends javax.swing.JFrame {
     private void ddDepartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddDepartmentActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ddDepartmentActionPerformed
+
+    private void txtUserIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUserIDActionPerformed
 
     /**
      * @param args the command line arguments

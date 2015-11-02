@@ -122,7 +122,7 @@ public class NewCase extends javax.swing.JFrame {
         jLabel12.setForeground(new java.awt.Color(255, 102, 0));
         jLabel12.setText("New Case");
 
-        ddKindOfSource.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Gemba", "Loto", "Kind1", "Kind2" }));
+        ddKindOfSource.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "EHS Gemba", "LOTO", "Other" }));
 
         dtDate.setDateFormatString("dd MMM yyyy");
 
