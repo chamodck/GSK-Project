@@ -214,7 +214,7 @@ public class Login extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    UIManager.setLookAndFeel(new HiFiLookAndFeel());
+                    UIManager.setLookAndFeel(new AluminiumLookAndFeel());
                 } catch (Exception e) {
                 }
                 new Login().setVisible(true);

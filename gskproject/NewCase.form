@@ -319,11 +319,15 @@
         <Component class="javax.swing.JComboBox" name="ddObservationType">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Type1"/>
-                <StringItem index="1" value="Type2"/>
-                <StringItem index="2" value="Type3"/>
-                <StringItem index="3" value="Type4"/>
+              <StringArray count="8">
+                <StringItem index="0" value="Chemical Handling"/>
+                <StringItem index="1" value="Electricity"/>
+                <StringItem index="2" value="Fire &amp; Emergency Preparedness"/>
+                <StringItem index="3" value="Gravity"/>
+                <StringItem index="4" value="House Keeping"/>
+                <StringItem index="5" value="Sharp Edges/Sharp Objects"/>
+                <StringItem index="6" value="TRIP/SLIP"/>
+                <StringItem index="7" value="Work Place Transportation"/>
               </StringArray>
             </Property>
           </Properties>
