@@ -285,11 +285,10 @@
         <Component class="javax.swing.JComboBox" name="ddKindOfSource">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Gemba"/>
-                <StringItem index="1" value="Loto"/>
-                <StringItem index="2" value="Kind1"/>
-                <StringItem index="3" value="Kind2"/>
+              <StringArray count="3">
+                <StringItem index="0" value="EHS Gemba"/>
+                <StringItem index="1" value="LOTO"/>
+                <StringItem index="2" value="Other"/>
               </StringArray>
             </Property>
           </Properties>
@@ -320,7 +319,6 @@
         <Component class="javax.swing.JComboBox" name="ddObservationType">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-<<<<<<< HEAD
               <StringArray count="9">
                 <StringItem index="0" value="Chemical Handling"/>
                 <StringItem index="1" value="Electricity"/>
@@ -331,13 +329,6 @@
                 <StringItem index="6" value="TRIP/SLIP"/>
                 <StringItem index="7" value="Work Place Transportation"/>
                 <StringItem index="8" value="Other"/>
-=======
-              <StringArray count="4">
-                <StringItem index="0" value="Type1"/>
-                <StringItem index="1" value="Type2"/>
-                <StringItem index="2" value="Type3"/>
-                <StringItem index="3" value="Type4"/>
->>>>>>> e1186c7c0e2e501d46fc2528b2b62025fed56188
               </StringArray>
             </Property>
           </Properties>
