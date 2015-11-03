@@ -137,7 +137,11 @@ public class NewCase extends javax.swing.JFrame {
             }
         });
 
+<<<<<<< HEAD
+        ddObservationType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Chemical Handling", "Electricity", "Fire & Emergency Preparedness", "Gravity", "House Keeping", "Sharp Edges/Sharp Objects", "TRIP/SLIP", "Work Place Transportation", "Other" }));
+=======
         ddObservationType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Type1", "Type2", "Type3", "Type4" }));
+>>>>>>> e1186c7c0e2e501d46fc2528b2b62025fed56188
 
         ddZAPState.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Open", "Close" }));
 
