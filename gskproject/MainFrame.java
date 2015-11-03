@@ -260,11 +260,12 @@ public class MainFrame extends javax.swing.JFrame {
             admin.setVisible(true);
         }
         else if(result==0){
-            JOptionPane.showMessageDialog(this,"You don't have access to this area!");
+            JOptionPane.showMessageDialog(this,"Can not access !");
         }
         else{
             JOptionPane.showMessageDialog(this,"Error occured while check isAdmin!");
         }
+        
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

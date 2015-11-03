@@ -6,14 +6,12 @@
 
 package gskproject;
 
-import static gskproject.NewCase.departmentID;
 import static gskproject.NewCase.userList;
 import static gskproject.RelatedCases.tableResponsibleParty;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -38,7 +36,6 @@ public class MoreDetailsRes extends javax.swing.JFrame {
         observationID=0;
         accidentType="";
         userList=dbOps.getUser();
-        actionTable=dbOps.getAction(observationID);
         setIcon();
     }
 
@@ -62,7 +59,7 @@ public class MoreDetailsRes extends javax.swing.JFrame {
         ddObserver.setSelectedIndex(index);
         //ddResponsibleParty.setSelectedItem(ob.get(6));
         //dtStartDate.setDate((Date)ob.get(6));
-        dtTarget.setDate((Date)ob.get(7));
+        dtTargetDate.setDate((Date)ob.get(7));
         //dtEndDate.setDate((Date)ob.get(8));
         ddZAPState.setSelectedItem(ob.get(6));
         
@@ -93,14 +90,16 @@ public class MoreDetailsRes extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         ddKindOfSource = new javax.swing.JComboBox();
         dtDate = new com.toedter.calendar.JDateChooser();
-        dtTarget = new com.toedter.calendar.JDateChooser();
+        dtTargetDate = new com.toedter.calendar.JDateChooser();
         ddObserver = new javax.swing.JComboBox();
         ddObservationType = new javax.swing.JComboBox();
         ddZAPState = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        btnSaveChanges = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        btnEdit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBounds(new java.awt.Rectangle(228, 38, 0, 0));
@@ -146,8 +145,8 @@ public class MoreDetailsRes extends javax.swing.JFrame {
         dtDate.setDateFormatString("dd MMM yyyy");
         dtDate.setEnabled(false);
 
-        dtTarget.setDateFormatString("dd MMM yyyy");
-        dtTarget.setEnabled(false);
+        dtTargetDate.setDateFormatString("dd MMM yyyy");
+        dtTargetDate.setEnabled(false);
 
         ddObserver.setEnabled(false);
         ddObserver.addActionListener(new java.awt.event.ActionListener() {
@@ -183,8 +182,17 @@ public class MoreDetailsRes extends javax.swing.JFrame {
             }
         });
 
+        btnSaveChanges.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/save-icon (1).png"))); // NOI18N
+        btnSaveChanges.setText("Save Changes");
+        btnSaveChanges.setEnabled(false);
+        btnSaveChanges.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveChangesActionPerformed(evt);
+            }
+        });
+
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Windows-Close-Program-icon.png"))); // NOI18N
-        jButton4.setText("Close");
+        jButton4.setText("Cancal");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -192,6 +200,14 @@ public class MoreDetailsRes extends javax.swing.JFrame {
         });
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/edit-icon.png"))); // NOI18N
+        btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -214,31 +230,32 @@ public class MoreDetailsRes extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(32, 32, 32)
-                                .addComponent(ddZAPState, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton1)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel9)
-                                        .addComponent(jLabel5))
-                                    .addGap(32, 32, 32)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(ddObserver, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(dtTarget, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addContainerGap(190, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(jButton4)
-                        .addGap(42, 42, 42))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(jButton1))
+                            .addComponent(btnSaveChanges))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton4)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(32, 32, 32)
+                        .addComponent(ddZAPState, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel5))
+                        .addGap(32, 32, 32)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ddObserver, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dtTargetDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(77, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(361, 361, 361)
                 .addComponent(jLabel12)
@@ -272,7 +289,7 @@ public class MoreDetailsRes extends javax.swing.JFrame {
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                             .addGap(59, 59, 59)
-                            .addComponent(dtTarget, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(dtTargetDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
@@ -292,12 +309,16 @@ public class MoreDetailsRes extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ddZAPState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(61, 61, 61)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
-                            .addComponent(jButton2)
+                            .addComponent(btnEdit)
+                            .addComponent(jButton2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSaveChanges)
                             .addComponent(jButton4))
-                        .addGap(105, 105, 105))))
+                        .addGap(95, 95, 95))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel12)
@@ -351,9 +372,58 @@ public class MoreDetailsRes extends javax.swing.JFrame {
         mapRes.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
+        /*Observation observation=new Observation();
+        observation.setDate(new java.sql.Date(dtDate.getDate().getTime()));
+        observation.setObservationID(Integer.parseInt(txtObservationID.getText()));
+        observation.setKindOfSource(ddKindOfSource.getSelectedItem().toString());
+        observation.setObservationType(ddObservationType.getSelectedItem().toString());
+        observation.setDescription(txtDescription.getText());
+        observation.setDepartmentID(departmentID+1);
+        observation.setObserverID(userList.get(ddObserver.getSelectedIndex()).getUserID());
+        observation.setResponsiblePartyID(userList.get(ddResponsibleParty.getSelectedIndex()).getUserID());
+        observation.setStartDate(new java.sql.Date(dtStartDate.getDate().getTime()));
+        observation.setTargetDate(new java.sql.Date(dtTargetDate.getDate().getTime()));
+        observation.setEndDate(new java.sql.Date(dtEndDate.getDate().getTime()));
+        observation.setZapStatus(ddZAPState.getSelectedItem().toString());
+        observation.setX(x);
+        observation.setY(y);
+        //java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        boolean result1=dbOps.addObservation(observation);
+        if(result1){
+            JOptionPane.showMessageDialog(this,"Observation Saved.");
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(this,"Observation Save Unsuccessful!.Try Again.");
+        }
+
+        for(Action a:actionList){
+            boolean result2=dbOps.addAction(a);
+            if(result2==false){
+                JOptionPane.showMessageDialog(this,"Error occured in actions inserting !");
+                return;
+            }
+        }
+        JOptionPane.showMessageDialog(this,"Action Saved.");*/
+    }//GEN-LAST:event_btnSaveChangesActionPerformed
+
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        btnSaveChanges.setEnabled(true);
+        dtDate.setEnabled(true);
+        ddKindOfSource.enable();
+        ddObservationType.enable();
+        txtDescription.setEditable(true);
+        ddObserver.enable();
+        //ddResponsibleParty.enable();
+        //dtStartDate.setEnabled(true);
+        dtTargetDate.setEnabled(true);
+        //dtEndDate.setEnabled(true);
+        ddZAPState.enable();
+    }//GEN-LAST:event_btnEditActionPerformed
 
     private void ddZAPStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddZAPStateActionPerformed
         // TODO add your handling code here:
@@ -395,12 +465,14 @@ public class MoreDetailsRes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnSaveChanges;
     private javax.swing.JComboBox ddKindOfSource;
     private javax.swing.JComboBox ddObservationType;
     private javax.swing.JComboBox ddObserver;
     private javax.swing.JComboBox ddZAPState;
     private com.toedter.calendar.JDateChooser dtDate;
-    private com.toedter.calendar.JDateChooser dtTarget;
+    private com.toedter.calendar.JDateChooser dtTargetDate;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;

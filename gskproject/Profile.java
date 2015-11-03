@@ -136,11 +136,6 @@ public class Profile extends javax.swing.JFrame {
         });
 
         ddDepartment.setEnabled(false);
-        ddDepartment.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ddDepartmentActionPerformed(evt);
-            }
-        });
 
         ddDesignation.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Manager", "Department Head", "Technical Officer", "Engineer", "Employee" }));
         ddDesignation.setEnabled(false);
@@ -297,10 +292,6 @@ public class Profile extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void ddDepartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddDepartmentActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ddDepartmentActionPerformed
 
     /**
      * @param args the command line arguments

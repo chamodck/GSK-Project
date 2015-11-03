@@ -991,28 +991,4 @@ public class DBOperations {
             }
         } 
     }
-    
-    public int updateAction(Action action){
-        try {
-            con=DriverManager.getConnection(url, this.username, this.password);
-            String quary="UPDATE action SET actionStatus='"+action.getActionStatus()+"' actionDescription='"+action.getActionDescription()+"' priorityNumber="+action.getPriorityNumber()+" WHERE actionID="+action.getActionID();
-            pst=(PreparedStatement) con.prepareStatement(quary);
-            pst.executeUpdate();
-            return 1;
-        } catch (SQLException ex) {
-            System.out.println(ex);
-            return 0;//Exception
-        }finally {
-            try {
-                if (pst != null) {
-                    pst.close();
-                }
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex);
-            }
-        }   
-    }
 }
