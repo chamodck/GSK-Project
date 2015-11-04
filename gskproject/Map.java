@@ -271,7 +271,7 @@ public class Map extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+ 
     private void lblMapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMapMouseClicked
         
         x = evt.getX();

@@ -212,22 +212,52 @@ public class UpdateUser extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        User user=new User();
-        user.setUserID(Integer.parseInt(txtUserID.getText()));
-        user.setUsername(txtUsername.getText());
-        user.setDepartmentID(ddDepartment.getSelectedIndex()+1);//Drop down indexes : 0,1,2,3....
-        user.setDesignation(ddDesignation.getSelectedItem().toString());
-        user.setEmail(txtEmail.getText());
-        user.setMobileNumber(txtMobileNumber.getText());
-        
-        if(dbOps.updateUser(user)){
-            JOptionPane.showMessageDialog(this,"Successfully Update !");
-            this.dispose();
-            return;
-        }
-        else{
-            JOptionPane.showMessageDialog(this,"Error while Updating... !");
-            this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        if (txtUsername.getText().equals("") && txtEmail.getText().equals("") && txtMobileNumber.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Fill the fields!");
+        } else if (txtUsername.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Enter username!");
+        } else if (txtEmail.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Enter email!");
+        } else if (txtMobileNumber.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Enter mobile number!");
+        } else {
+
+            if (Validation.isEmaiCorrect(txtEmail.getText())) {
+
+                if (Validation.isMobileNumberCorrect(txtMobileNumber.getText())) {
+                    int result = dbOps.checkUsernameToUpdate(txtUsername.getText(),Integer.parseInt(txtUserID.getText()));
+                    if (result == 1) {
+                        User user = new User();
+                        user.setUserID(Integer.parseInt(txtUserID.getText()));
+                        user.setUsername(txtUsername.getText());
+                        user.setDepartmentID(ddDepartment.getSelectedIndex() + 1);//Drop down indexes : 0,1,2,3....
+                        user.setDesignation(ddDesignation.getSelectedItem().toString());
+                        user.setEmail(txtEmail.getText());
+                        user.setMobileNumber(txtMobileNumber.getText());
+
+                        if (dbOps.updateUser(user)) {
+                            JOptionPane.showMessageDialog(this, "Successfully Update !");
+                            this.dispose();
+                            //return;
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Error while Updating... !");
+                            //this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        }
+                    } else if (result == 0) {
+                        JOptionPane.showMessageDialog(this, "Username already exists,Enter another username...!");
+                        txtUsername.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Error occured while checking username... !");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Incorrect Mobile Number!");
+                    txtMobileNumber.setText("");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Incorrect Email address!");
+                txtEmail.setText("");
+            }
+
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

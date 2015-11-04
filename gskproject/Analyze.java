@@ -7,6 +7,7 @@ package gskproject;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
@@ -32,9 +35,7 @@ import org.jfree.data.general.DefaultPieDataset;
  */
 public class Analyze extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Analyze
-     */
+    
     DBOperations dbOps = new DBOperations();
     static Vector<String> PcolumnNames;
     //static Vector<Vector> personWiseObervation;
@@ -99,6 +100,8 @@ public class Analyze extends javax.swing.JFrame {
         lblClosed = new javax.swing.JLabel();
         lblTime = new javax.swing.JLabel();
         btnReport = new javax.swing.JButton();
+        test2 = new javax.swing.JTextField();
+        dname = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         dtPTo = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
@@ -120,7 +123,6 @@ public class Analyze extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Analyze");
-        setPreferredSize(new java.awt.Dimension(1106, 652));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Enter Duration"));
 
@@ -278,16 +280,16 @@ public class Analyze extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ddDDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
-                        .addComponent(jLabel21)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ddDAccidentType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDAGraph))
+                        .addComponent(jLabel21))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel22)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnDAGraph)
+                    .addComponent(ddDAccidentType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,13 +298,13 @@ public class Analyze extends javax.swing.JFrame {
                     .addComponent(ddDDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20)
                     .addComponent(jLabel21)
-                    .addComponent(ddDAccidentType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDAGraph))
+                    .addComponent(ddDAccidentType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jLabel22))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(jLabel22)
+                    .addComponent(btnDAGraph))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         tblDepartmentAccident.setModel(new javax.swing.table.DefaultTableModel(
@@ -386,6 +388,8 @@ public class Analyze extends javax.swing.JFrame {
             }
         });
 
+        dname.setText("jTextField1");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -398,10 +402,19 @@ public class Analyze extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnReport)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnReport)
+                                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(102, 102, 102)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(test2, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(dname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(9, 9, 9)))))))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -414,10 +427,19 @@ public class Analyze extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnReport))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnReport)
+                        .addGap(18, 18, 18)
+                        .addComponent(test2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(dname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jTabbedPane1.addTab("Department-Accident Type Analysis", jPanel1);
@@ -525,13 +547,13 @@ public class Analyze extends javax.swing.JFrame {
                                     .addComponent(lblPTotal)
                                     .addComponent(lblPClosed)
                                     .addComponent(lblPOpen))))
-                        .addGap(260, 260, 260)
-                        .addComponent(jLabel11)
-                        .addGap(18, 18, 18)
+                        .addGap(95, 95, 95)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(18, 18, 18)
                                 .addComponent(ddDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                                 .addComponent(jLabel10)
                                 .addGap(18, 18, 18)
                                 .addComponent(ddGraphPersonWise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -543,20 +565,25 @@ public class Analyze extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel8)
-                        .addComponent(dtPTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(dtPFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel10)
-                        .addComponent(ddGraphPersonWise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(ddDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel11)))
-                .addGap(18, 18, 18)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(dtPTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dtPFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel10)
+                                .addComponent(ddGraphPersonWise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(ddDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel11)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(lblPTotal))
@@ -764,8 +791,160 @@ public class Analyze extends javax.swing.JFrame {
     }//GEN-LAST:event_dtPToPropertyChange
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
+        try {
+            String accidentType1 = null, accidentType2 = null, accidentType3 = null,close_p_lti=null,close_p_firstaid=null,close_p_nearmiss=null;
+            String duration_variable_from=null,duration_variable_to=null ;   
+            
+            //Calculate_Duration d =new Calculate_Duration();
+            if(ddDTimePeriod.getSelectedItem()== "ALL"){
+                //duration_variable_from= "2005-01-01";
+            }
+            else if(ddDTimePeriod.getSelectedItem()== "Last Week"){
+                Date[] array=getLastWeek();
+                duration_variable_from= new SimpleDateFormat("yyyy-MM-dd").format(array[0]);
+                 duration_variable_to =new SimpleDateFormat("yyyy-MM-dd").format(array[1]);
+            }
+            else if(ddDTimePeriod.getSelectedItem()== "Last Month"){
+                Date[] array=getLastMonth();
+                 duration_variable_from= new SimpleDateFormat("yyyy-MM-dd").format(array[0]);
+                 duration_variable_to =new SimpleDateFormat("yyyy-MM-dd").format(array[1]);
+            }
+            else if(ddDTimePeriod.getSelectedItem()== "Last Year"){
+                Date[] array=getLastYear();
+                duration_variable_from= new SimpleDateFormat("yyyy-MM-dd").format(array[0]);
+                duration_variable_to =new SimpleDateFormat("yyyy-MM-dd").format(array[1]);
+            }
+            //test2.setText(duration_variable_to);
+           else if(ddDTimePeriod.getSelectedItem()== "This Week"){
+                
+                duration_variable_from= new SimpleDateFormat("yyyy-MM-dd").format(getThisWeek());
+                duration_variable_to= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                
+            }
+            else if(ddDTimePeriod.getSelectedItem()== "This Month"){
+                duration_variable_from= new SimpleDateFormat("yyyy-MM-dd").format(getThisMonth());
+                duration_variable_to= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            }
+            else if(ddDTimePeriod.getSelectedItem()== "This Year"){
+                duration_variable_from= new SimpleDateFormat("yyyy-MM-dd").format(getThisYear());
+                duration_variable_to= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            } 
+            else{
+               // duration_variable=advanece_duration_variable;
+            }
+            
+            System.out.println(duration_variable_from= new SimpleDateFormat("yyyy-MM-dd").format(getThisYear()));
+            //departmentID =((Integer)department1.getSelectedIndex()).toString();                                                    CAST(dates AS date) BETWEEN '1/1/2013' and '1/2/2013'
+            //Integer.toString(department1.getSelectedIndex()+1);
+            String departmentName=tableDepartmentAccident.get(tblDepartmentAccident.getSelectedRow()).get(0).toString();
+            String departmentID=null;
+            System.out.println(departmentName +"%%%%%%%%%%%%%%%%%%%%%%%%%");
+//if(departmentName=="EHS")
+            if("EHS".equals(departmentName)){
+                 departmentID = "1";       
+            }    
+            else if("IT".equals(departmentName)){
+                departmentID = "3";
+            }
+            else if ("Engineering".equals(departmentName)) {
+                departmentID = "2";
+            }
+            
+//String query ="select observation.date, observation.departmentID, department.departmentName, observation.observationID, observation.responsiblePartyID, observation.accidentType, observation.zapStatus from observation INNER JOIN department ON (observation.departmentID=department.departmentID) where (observation.accidentType =" + "'" + accidentType1 + "'" + "or observation.accidentType = " + "'" + accidentType2 + "'" + "or observation.accidentType =" + "'" + accidentType3 + "'" + ") and (observation.departmentID =" + "'" + departmentID1+ "'" + "or observation.departmentID = " + "'" + departmentID2 + "'" + "or observation.departmentID =" + "'" + departmentID3 + "'" + ") order by departmentID";
+            String quary_total_LTI = "select count(*) as x from observation where (observation.departmentID =" + "'" + departmentID + "'" + " )and (accidentType= " + "'" + "LTI" + "'" + ")and (observation.date between " + "'" + duration_variable_from+ "'" +"and"+ "'" + duration_variable_to + "'" +" )";
+            String quary_Open_LTI = "select count(*) as x from observation  where (observation.departmentID =" + "'" + departmentID + "'" + " ) and (accidentType= " + "'" + "LTI" + "'" + ") and (zapStatus = " + "'" + "Open" + "'" + ") and (observation.date between " + "'" + duration_variable_from+ "'" +"and"+ "'" + duration_variable_to + "'"+ " )";
+            String quary_close_LTI = "select count(*) as x from observation where (observation.departmentID =" + "'" + departmentID + "'" + " ) and (accidentType= " + "'" + "LTI" + "'" + ") and (zapStatus = " + "'" + "Close" + "'" + ")and (observation.date between " + "'" + duration_variable_from+ "'" +"and"+ "'" + duration_variable_to + "'" + " )";
+               //txt1.setText(quary_total_LTI);
+            String quary_total_FirstAid = "select count(*) as x from observation where (observation.departmentID =" + "'" + departmentID + "'" + " )and (accidentType= " + "'" + "First Aid" + "'" + ")and (observation.date between " + "'" + duration_variable_from+ "'" +"and"+ "'" + duration_variable_to + "'" + " )";
+            String quary_Open_FirstAid = "select count(*) as x from observation where (observation.departmentID =" + "'" + departmentID + "'" + " ) and (accidentType= " + "'" + "First Aid" + "'" + ") and (zapStatus = " + "'" + "Open" + "'" + ")and (observation.date between " + "'" + duration_variable_from+ "'" +"and"+ "'" + duration_variable_to + "'" + " )";
+            String quary_close_FirstAid = "select count(*) as x from observation where (observation.departmentID =" + "'" + departmentID + "'" + " ) and (accidentType= " + "'" + "First Aid" + "'" + ") and (zapStatus = " + "'" + "Close" + "'" + ")and (observation.date between " + "'" + duration_variable_from+ "'" +"and"+ "'" + duration_variable_to + "'" + " )";
 
-        new ReportConfig().generateReport("C:\\Users\\chamod\\Documents\\NetBeansProjects\\GskProject\\src\\Report\\depAccidAnalyzeReport.jrxml",para);
+            String quary_total_NearMiss = "select count(*) as x from observation  where (observation.departmentID =" + "'" + departmentID + "'" + " )and (accidentType= " + "'" + "Near Miss" + "'" + ")and (observation.date between " + "'" + duration_variable_from+ "'" +"and"+ "'" + duration_variable_to + "'" + " )";
+            String quary_Open_NearMiss = "select count(*) as x from observation where (observation.departmentID =" + "'" + departmentID + "'" + " ) and (accidentType= " + "'" + "Near Miss" + "'" + ") and (zapStatus = " + "'" + "Open" + "'" + ")and  (observation.date between " + "'" + duration_variable_from+ "'" +"and"+ "'" + duration_variable_to + "'" + " )";
+            String quary_close_NearMiss = "select count(*) as x from observation where (observation.departmentID =" + "'" + departmentID + "'" + " ) and (accidentType= " + "'" + "Near Miss" + "'" + ") and (zapStatus = " + "'" + "Close" + "'" + ")and (observation.date between " + "'" + duration_variable_from+ "'" +"and"+ "'" + duration_variable_to + "'" + " )";
+            System.out.println("2");
+            test2.setText(quary_total_NearMiss);
+            Case_Summary count1 = new Case_Summary();
+
+            String total_lti = count1.getData(quary_total_LTI);
+            String open_lti = count1.getData(quary_Open_LTI);
+            String close_lti = count1.getData(quary_close_LTI);
+            if(Float.parseFloat(total_lti)==0){
+                //float close_precentage_lti = (Float.parseFloat(close_lti)/1)*100;
+                close_p_lti = "0.0 %";//Float.toString(close_precentage_lti).concat(" %");
+            }
+            else{
+                 float close_precentage_lti = (Float.parseFloat(close_lti)/Float.parseFloat(total_lti))*100;
+                close_p_lti = Float.toString(close_precentage_lti).concat(" %");
+            }
+           
+
+            //view.setText(total_lti);
+            //view2.setText(close_lti);
+            //view3.setText(close_p_lti);
+             String total_firstaid = count1.getData(quary_total_FirstAid);
+             String open_firstaid = count1.getData(quary_Open_FirstAid);
+             String close_firstaid = count1.getData(quary_close_FirstAid);
+             if(Float.parseFloat(total_firstaid)==0){
+                //float close_precentage_lti = (Float.parseFloat(close_lti)/1)*100;
+                close_p_firstaid = "0.0 %";//Float.toString(close_precentage_lti).concat(" %");
+            }
+            else{
+                 float close_precentage_firstaid = (Float.parseFloat(close_firstaid)/Float.parseFloat(total_firstaid))*100;
+                close_p_firstaid = Float.toString(close_precentage_firstaid).concat(" %");
+            }
+            System.out.println("4");
+             String total_nearmiss = count1.getData(quary_total_NearMiss);
+             String open_nearmiss = count1.getData(quary_Open_NearMiss);
+             String close_nearmiss = count1.getData(quary_close_NearMiss);
+              System.out.println("5");
+            if(Float.parseFloat(total_nearmiss)==0){
+                //float close_precentage_lti = (Float.parseFloat(close_lti)/1)*100;
+                close_p_nearmiss = "0.0 %";//Float.toString(close_precentage_lti).concat(" %");
+            }
+            else{
+                 float close_precentage_nearmiss = (Float.parseFloat(close_nearmiss)/Float.parseFloat(total_nearmiss))*100;
+                close_p_nearmiss = Float.toString(close_precentage_nearmiss).concat(" %");
+            }
+            
+            
+           
+             /*view2.setText(open);
+             view3.setText(close);
+             view.setText(quary_total);*/
+
+             departmentID="3";
+             HashMap param = new HashMap();
+             param.put("total_nearmiss",total_nearmiss);
+             param.put("open_nearmiss",open_nearmiss);
+             param.put("close_nearmiss",close_nearmiss);
+             param.put("close_p_nearmiss",close_p_nearmiss);
+            
+             param.put("total_lti",total_lti);
+             param.put("open_lti",open_lti);
+             param.put("close_lti",close_lti);
+             param.put("close_p_lti",close_p_lti);
+          
+             param.put("total_firstaid",total_firstaid);
+             param.put("open_firstaid",open_firstaid);
+             param.put("close_firstaid",close_firstaid);
+             param.put("close_p_firstaid",close_p_firstaid); 
+             param.put("departmentID",departmentID);
+             param.put("departmentName",departmentName);
+             
+                 
+             param.put("duration_variable_from",duration_variable_from);
+             param.put("duration_variable_to",duration_variable_to);
+             Ireport_connection dep = new Ireport_connection("C:\\Users\\Malinda Ranabahu\\Documents\\reports\\Department_vice_Analyse.jasper", param);
+             dep.setVisible(true);
+        } 
+           
+            catch (SQLException ex) {
+            //Logger.getLogger(Department_Vice_Analyse.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    
+        
     }//GEN-LAST:event_btnReportActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -787,7 +966,7 @@ public class Analyze extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please Filter Data!");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-	//Departments and Accident Types analyze Graph generate 
+
     private void btnDAGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDAGraphActionPerformed
         if (tableDepartmentAccident != null) {
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -848,7 +1027,7 @@ public class Analyze extends javax.swing.JFrame {
     private void ddDDepartmentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ddDDepartmentMouseClicked
 
     }//GEN-LAST:event_ddDDepartmentMouseClicked
-	//Last week last year wage filer karanakota wena tika
+
     private void ddDTimePeriodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddDTimePeriodActionPerformed
         Object obj = evt.getSource();
         if (obj == ddDTimePeriod) {
@@ -887,7 +1066,9 @@ public class Analyze extends javax.swing.JFrame {
                     resetFields();
                 }
             }else if (ddDTimePeriod.getSelectedIndex() == 4) {
+                
                 Date from = getThisWeek();
+                System.out.println(from);
                 Date to=new Date();
                 if (departmentAccidentTableLoad(from, to)) {
                     Calendar c = Calendar.getInstance();
@@ -941,7 +1122,7 @@ public class Analyze extends javax.swing.JFrame {
     private void dtDAFromPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dtDAFromPropertyChange
         // TODO add your handling code here:
     }//GEN-LAST:event_dtDAFromPropertyChange
-	// filter button
+
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         if (departmentAccidentTableLoad(dtDAFrom.getDate(), dtDATo.getDate())) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
@@ -1071,7 +1252,6 @@ public class Analyze extends javax.swing.JFrame {
             ddDDepartment.addItem(dep);
         }
     }
-	//person wise table eka load karana widiha
     public void personWiseTableload() {
         multiMap = new HashMap<Object, Object[]>();
         userList = new ArrayList<User>();
@@ -1258,8 +1438,7 @@ public class Analyze extends javax.swing.JFrame {
             }
         }
     }
-	
-	//departmet wise table eka load karana widiha
+
     public boolean departmentAccidentTableLoad(Date from1, Date to1) {
         depHashMap = new HashMap<Object, Object[]>();
         ArrayList<Object[]> depNameID = dbOps.getDepartmentNameID();
@@ -1301,7 +1480,7 @@ public class Analyze extends javax.swing.JFrame {
         int totalTotal = 0;
 
         if (from != null && to != null) {
-            if (to.after(from)) {
+            if (to.after(from)|| to.equals(from)) {
                 tableObservation = dbOps.getAnalyzeObservation(from, to);
                 if (tableObservation.size() > 0) {
                     for (Object[] row : depNameID) {
@@ -1493,6 +1672,7 @@ public class Analyze extends javax.swing.JFrame {
     private javax.swing.JComboBox ddDTimePeriod;
     private javax.swing.JComboBox ddDepartment;
     private javax.swing.JComboBox ddGraphPersonWise;
+    private javax.swing.JTextField dname;
     private com.toedter.calendar.JDateChooser dtDAFrom;
     private com.toedter.calendar.JDateChooser dtDATo;
     private com.toedter.calendar.JDateChooser dtPFrom;
@@ -1533,5 +1713,6 @@ public class Analyze extends javax.swing.JFrame {
     private javax.swing.JLabel lblTotal;
     private javax.swing.JTable tblDepartmentAccident;
     private javax.swing.JTable tblPersonVise;
+    private javax.swing.JTextField test2;
     // End of variables declaration//GEN-END:variables
 }

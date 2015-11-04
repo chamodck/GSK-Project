@@ -150,6 +150,41 @@ public class DBOperations {
         }       
     }
     
+    int checkUsernameToUpdate(String username,int userID){
+        try {
+            con=DriverManager.getConnection(url, this.username, password);
+            String quary="SELECT username,userID FROM user";
+            pst=(PreparedStatement) con.prepareStatement(quary);
+            rs=pst.executeQuery();
+            
+            while(rs.next()){
+                if(username.equals(rs.getString(1)) ){
+                    if(userID==rs.getInt(2)){
+                        return 1;
+                    }else{
+                        return 0;
+                    }
+                }      
+            }return 1;
+            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return 2;
+            
+        }finally {
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }       
+    }
+    
     ArrayList<User> getUser(){
         try {
             ArrayList<User> list=new ArrayList<User>();
@@ -990,5 +1025,29 @@ public class DBOperations {
                 System.out.println(ex);
             }
         } 
+    }
+    
+    public int updateAction(Action action){
+        try {
+            con=DriverManager.getConnection(url, this.username, this.password);
+            String quary="UPDATE action SET actionStatus='"+action.getActionStatus()+"', actionDescription='"+action.getActionDescription()+"', priorityNumber="+action.getPriorityNumber()+" WHERE actionID="+action.getActionID();
+            pst=(PreparedStatement) con.prepareStatement(quary);
+            pst.executeUpdate();
+            return 1;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return 0;//Exception
+        }finally {
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }   
     }
 }

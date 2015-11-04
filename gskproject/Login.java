@@ -164,18 +164,26 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int result = dbOps.checkUsernamePassword(txtUsername.getText(), MD5.md5(txtPassword.getText()));
-        if (result == 1) {
-            GskProject.currentUser = txtUsername.getText();
-            this.dispose();
-            MainFrame mainFrame = new MainFrame();
-            mainFrame.setVisible(true);
-        } else if (result == 0) {
-            JOptionPane.showMessageDialog(this, "Invalid Username,Password !");
-            txtUsername.setText("");
-            txtPassword.setText("");
+        if(txtUsername.getText().equals("") && txtPassword.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Enter username and password!");
+        }else if(txtUsername.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Enter username!");
+        }else if(txtPassword.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Enter password!");
         } else {
-            JOptionPane.showMessageDialog(this, "Error occurred while login !");
+            int result = dbOps.checkUsernamePassword(txtUsername.getText(), MD5.md5(txtPassword.getText()));
+            if (result == 1) {
+                GskProject.currentUser = txtUsername.getText();
+                this.dispose();
+                MainFrame mainFrame = new MainFrame();
+                mainFrame.setVisible(true);
+            } else if (result == 0) {
+                JOptionPane.showMessageDialog(this, "Invalid Username,Password !");
+                txtUsername.setText("");
+                txtPassword.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error occurred while login !");
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -214,7 +222,7 @@ public class Login extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    UIManager.setLookAndFeel(new HiFiLookAndFeel());
+                    UIManager.setLookAndFeel(new AluminiumLookAndFeel());
                 } catch (Exception e) {
                 }
                 new Login().setVisible(true);

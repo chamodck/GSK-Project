@@ -103,7 +103,7 @@ public class DeleteAction extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        NewCase.userList.remove(deleteRawNumber);
+        NewCase.actionList.remove(deleteRawNumber);
         NewCase.tableData.remove(deleteRawNumber);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

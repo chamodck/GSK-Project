@@ -118,7 +118,6 @@ private void setIcon() {
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logout.png"))); // NOI18N
         jButton1.setText("Exit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,8 +143,7 @@ private void setIcon() {
                         .addComponent(btnResetPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(33, 33, 33)))
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -158,10 +156,9 @@ private void setIcon() {
                     .addComponent(btnDeleteUser)
                     .addComponent(btnResetPassword))
                 .addGap(35, 35, 35)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 233, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -229,98 +226,112 @@ private void setIcon() {
     }//GEN-LAST:event_btnAddUserActionPerformed
 
     private void btnUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateUserActionPerformed
-        UpdateUser updateuser=new UpdateUser();
-        updateuser.setVisible(true);
-        updateuser.setFields(userList.get(tblUser.getSelectedRow()));
+        if (tblUser.getSelectedRow() != -1) {
+            UpdateUser updateuser = new UpdateUser();
+            updateuser.setVisible(true);
+            updateuser.setFields(userList.get(tblUser.getSelectedRow()));
+
+            updateuser.addWindowListener(new WindowListener() {
+
+                @Override
+                public void windowOpened(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowClosing(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    loadUser();
+                }
+
+                @Override
+                public void windowIconified(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowDeiconified(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowActivated(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowDeactivated(WindowEvent e) {
+
+                }
+
+            });
+        }else{
+            JOptionPane.showMessageDialog(this, "Select an user On table");
+        }
         
-        updateuser.addWindowListener(new WindowListener(){
-
-            @Override
-            public void windowOpened(WindowEvent e) {
-                
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-                
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-                loadUser();
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-                
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-                
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-                
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-                
-            }
-            
-        });
     }//GEN-LAST:event_btnUpdateUserActionPerformed
 
     private void btnDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUserActionPerformed
-        DeleteUser deleteUser=new DeleteUser();
-        deleteUser.setVisible(true);
-        deleteUser.whichUser=userList.get(tblUser.getSelectedRow());
-        deleteUser.addWindowListener(new WindowListener(){
+        if (tblUser.getSelectedRow() != -1) {
+            DeleteUser deleteUser = new DeleteUser();
+            deleteUser.setVisible(true);
+            deleteUser.whichUser = userList.get(tblUser.getSelectedRow());
+            deleteUser.addWindowListener(new WindowListener() {
 
-            @Override
-            public void windowOpened(WindowEvent e) {
-                
-            }
+                @Override
+                public void windowOpened(WindowEvent e) {
 
-            @Override
-            public void windowClosing(WindowEvent e) {
-                
-            }
+                }
 
-            @Override
-            public void windowClosed(WindowEvent e) {
-                loadUser();
-            }
+                @Override
+                public void windowClosing(WindowEvent e) {
 
-            @Override
-            public void windowIconified(WindowEvent e) {
-                
-            }
+                }
 
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-                
-            }
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    loadUser();
+                }
 
-            @Override
-            public void windowActivated(WindowEvent e) {
-                
-            }
+                @Override
+                public void windowIconified(WindowEvent e) {
 
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-                
-            }
-            
-        });
+                }
+
+                @Override
+                public void windowDeiconified(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowActivated(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowDeactivated(WindowEvent e) {
+
+                }
+
+            });
+        } else {
+            JOptionPane.showMessageDialog(this, "Select an user On table");
+        }
+
     }//GEN-LAST:event_btnDeleteUserActionPerformed
 
     private void btnResetPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetPasswordActionPerformed
-        ResetPassword resetPassword=new ResetPassword();
-        resetPassword.setVisible(true);
-        resetPassword.whichUser=userList.get(tblUser.getSelectedRow());
+        if (tblUser.getSelectedRow() != -1) {
+            ResetPassword resetPassword = new ResetPassword();
+            resetPassword.setVisible(true);
+            resetPassword.whichUser = userList.get(tblUser.getSelectedRow());
+        } else {
+            JOptionPane.showMessageDialog(this, "Select an user On table");
+        }
     }//GEN-LAST:event_btnResetPasswordActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
