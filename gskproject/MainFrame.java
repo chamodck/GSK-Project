@@ -13,6 +13,16 @@ public class MainFrame extends javax.swing.JFrame {
     
     public MainFrame() {
         initComponents();
+        
+        int result=dbOps.isAdmin();
+        
+        if(result==0){
+            btnAdmin.hide();
+        }
+        else if (result!=1){
+            JOptionPane.showMessageDialog(this,"Error occured while check isAdmin!");
+        }
+        
         User user=dbOps.getCurrentUser();
         if(user!=null){
             lblCurrentUser.setText(GskProject.currentUser + "(" + user.getUserID() + ")");
@@ -46,7 +56,7 @@ public class MainFrame extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        btnAdmin = new javax.swing.JButton();
         canvas1 = new java.awt.Canvas();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -73,6 +83,7 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Unsafe Observations Reporting and Analyzing system");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setPreferredSize(new java.awt.Dimension(3269, 730));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1366, 768));
 
@@ -119,11 +130,11 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Admin-icon (1).png"))); // NOI18N
-        jButton7.setText("Administrator");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btnAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Admin-icon (1).png"))); // NOI18N
+        btnAdmin.setText("Administrator");
+        btnAdmin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btnAdminActionPerformed(evt);
             }
         });
 
@@ -161,7 +172,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                    .addComponent(btnAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -209,7 +220,7 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(56, 56, 56)
-                        .addComponent(jButton7)
+                        .addComponent(btnAdmin)
                         .addGap(45, 45, 45)
                         .addComponent(jButton2)
                         .addGap(51, 51, 51)
@@ -262,19 +273,11 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        int result=dbOps.isAdmin();
-        if(result==1){
-            Admin admin=new Admin();
-            admin.setVisible(true);
-        }
-        else if(result==0){
-            JOptionPane.showMessageDialog(this,"You don't have access to this area!");
-        }
-        else{
-            JOptionPane.showMessageDialog(this,"Error occured while check isAdmin!");
-        }
-    }//GEN-LAST:event_jButton7ActionPerformed
+    private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
+
+        Admin admin = new Admin();
+        admin.setVisible(true);
+    }//GEN-LAST:event_btnAdminActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         NewCase newCase=new NewCase();
@@ -338,6 +341,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdmin;
     private java.awt.Canvas canvas1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -345,7 +349,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

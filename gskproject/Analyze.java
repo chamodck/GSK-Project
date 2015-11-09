@@ -944,7 +944,7 @@ public class Analyze extends javax.swing.JFrame {
                  
              param.put("duration_variable_from",duration_variable_from);
              param.put("duration_variable_to",duration_variable_to);
-             Ireport_connection dep = new Ireport_connection("C:\\Users\\Malinda Ranabahu\\Documents\\reports\\Department_vice_Analyse.jasper", param);
+             Ireport_connection dep = new Ireport_connection("C:\\Users\\chamod\\Documents\\NetBeansProjects\\GskProject\\src\\report\\Department_vice_Analyse.jasper", param);
              dep.setVisible(true);
         } 
            

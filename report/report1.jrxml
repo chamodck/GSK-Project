@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="78cd2292-616c-455c-aed9-a2e4b3bd699b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="accidentType1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="accidentType2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="accidentType3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select date,observationID,responsiblePartyID,accidentType,zapStatus,departmentID from observation
+where
+
+accidentType = $P{accidentType1} or
+accidentType = $P{accidentType2} or
+accidentType = $P{accidentType3}
+
+
+order by departmentID]]>
+	</queryString>
+	<field name="date" class="java.sql.Date"/>
+	<field name="observationID" class="java.lang.Integer"/>
+	<field name="responsiblePartyID" class="java.lang.Integer"/>
+	<field name="accidentType" class="java.lang.String"/>
+	<field name="zapStatus" class="java.lang.String"/>
+	<field name="departmentID" class="java.lang.Integer"/>
+	<group name="order">
+		<groupExpression><![CDATA[$F{departmentID}]]></groupExpression>
+		<groupHeader>
+			<band height="26">
+				<textField>
+					<reportElement uuid="ea9fe2a7-5bd1-47d5-9bba-4b77f5d97003" x="0" y="0" width="133" height="20"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{departmentID}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="d33a5e4b-811b-4d64-bca3-3bebf869d291" x="0" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="939d440a-53fd-4e2d-b347-d876424f1a8e" x="92" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[observationID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="77fd05eb-2a99-4c05-a5d6-bca2d879cfcd" x="184" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[responsiblePartyID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b251f563-75b2-4489-abc2-5f02755eefed" x="276" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[accidentType]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a7c55cc0-877b-4951-ab69-b7465040f11b" x="368" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[zapStatus]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="958cb532-fbc5-438a-8518-27591f4cf0d3" x="460" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[departmentID]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement uuid="d1325968-16a5-4267-81f7-1cb2d89b7676" x="0" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b46d456e-26a2-40a7-a682-eb20595ad16e" x="92" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{observationID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3358b6db-72c4-4270-996e-2a547db25ebd" x="184" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{responsiblePartyID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cc33af36-06f8-4241-aeaa-4b42edb2b956" x="276" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{accidentType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c3a91126-a589-4c96-8208-73d7c81f4d40" x="368" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{zapStatus}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="28063f78-f262-4bd7-8ce2-97b999f8f802" x="460" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{departmentID}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="11" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

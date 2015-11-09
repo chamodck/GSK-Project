@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report3" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="de184662-df4d-4343-8f22-17e0cf8385bf">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select observation.date, observation.departmentID, department.departmentName, observation.observationID, observation.responsiblePartyID, observation.accidentType, observation.zapStatus
+from observation INNER JOIN department
+ON observation.departmentID=department.departmentID
+
+order by departmentName]]>
+	</queryString>
+	<field name="date" class="java.sql.Date"/>
+	<field name="departmentID" class="java.lang.Integer"/>
+	<field name="departmentName" class="java.lang.String"/>
+	<field name="observationID" class="java.lang.Integer"/>
+	<field name="responsiblePartyID" class="java.lang.Integer"/>
+	<field name="accidentType" class="java.lang.String"/>
+	<field name="zapStatus" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.String" resetType="Column">
+		<variableExpression><![CDATA[$F{zapStatus}]]></variableExpression>
+	</variable>
+	<variable name="variable2" class="java.lang.Integer" resetType="Column" incrementType="Column">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<variable name="variable3" class="java.lang.Integer" resetType="Group" resetGroup="x" incrementType="Column">
+		<variableExpression><![CDATA[$V{variable2}+1]]></variableExpression>
+	</variable>
+	<group name="x">
+		<groupExpression><![CDATA[$F{departmentName}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<textField>
+					<reportElement uuid="d6832213-e78a-4bc5-9b20-120b24ddcc54" x="0" y="0" width="100" height="20"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{departmentName}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement uuid="b401a7c5-c7a4-49ff-9f4a-0d91e5674229" x="209" y="41" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{variable2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="bc9ea9ff-f548-460b-a7be-3e1c7aac6e71" x="0" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="be15f61b-caaf-4d30-949c-0cdf0c8fc278" x="100" y="0" width="93" height="20"/>
+				<textElement/>
+				<text><![CDATA[departmentName]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eae3fb7c-67fd-400d-92ef-b6aab412a77f" x="230" y="0" width="138" height="20"/>
+				<textElement/>
+				<text><![CDATA[departmentID]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement uuid="d12a9571-446d-4d82-a721-bb7ccc0bbb94" x="0" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a5911766-766b-43d9-b27a-788cfdc6c1f1" x="100" y="0" width="93" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{departmentName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="59a98da6-0ffe-4963-9dd6-072171cd2f13" x="230" y="0" width="138" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{departmentID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="55b86d46-611d-4fda-b6d9-368bcecbc8c2" x="368" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="3" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="40" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="6" splitType="Stretch"/>
+	</summary>
+</jasperReport>
