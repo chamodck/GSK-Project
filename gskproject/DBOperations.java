@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 
@@ -327,7 +328,7 @@ public class DBOperations {
         try {
             con = DriverManager.getConnection(url, username, password);
             
-            
+            System.out.println(MD5.md5(Integer.toString(user.getUserID())));
             String quary ="UPDATE user SET password='"+MD5.md5(Integer.toString(user.getUserID()))+"' WHERE username='"+user.getUsername()+"'";
             pst = (PreparedStatement)con.prepareStatement(quary);
             pst.executeUpdate();
@@ -888,6 +889,60 @@ public class DBOperations {
         }   
     }
     
+    public Vector<Vector> getAllCases(java.sql.Date from,java.sql.Date to){
+        try {
+            con=DriverManager.getConnection(url, username, password);
+            String quary="";
+            if(from==null && to==null){
+                quary="SELECT * FROM observation";
+            }else if(to==null){
+                quary="SELECT * FROM observation WHERE date >='"+from+"'";
+            }else if(from==null){
+                quary="SELECT * FROM observation WHERE date <='"+to+"'";
+            }else{
+                quary="SELECT * FROM observation WHERE (date BETWEEN '"+from+"' AND '"+to+"')";
+            }
+            
+            pst=(PreparedStatement) con.prepareStatement(quary);
+            rs=pst.executeQuery();
+            
+            Vector<Vector> table=new Vector<Vector>();
+            while(rs.next()){
+                Vector<Object> row=new Vector<Object>();
+                row.addElement(rs.getDate(1));
+                row.addElement(rs.getInt(2));
+                row.addElement(rs.getString(3));
+                row.addElement(rs.getString(4));
+                row.addElement(rs.getString(5));
+                row.addElement(rs.getString(12));
+                row.addElement(Cases.depMap.get(rs.getInt(6)));
+                row.addElement(Cases.userMap.get(rs.getInt(7)));
+                row.addElement(Cases.userMap.get(rs.getInt(8)));
+                row.addElement(rs.getDate(13));
+                row.addElement(rs.getDate(14));
+                row.addElement(rs.getString(9));
+                table.add(row);
+            }
+            return table;    
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        }
+        finally {
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }   
+    }
+    
     public ArrayList<String> getDepartmentNames(){
         try {
             con=DriverManager.getConnection(url, username, password);
@@ -934,6 +989,68 @@ public class DBOperations {
                 array.add(row);
             }
             return array;    
+        }catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        }
+        finally {
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }   
+    }
+    
+    public HashMap<Integer,String> getDepartmentNameIDHasMap(){
+        try {
+            con=DriverManager.getConnection(url, username, password);
+            String quary="SELECT * FROM department";
+            pst=(PreparedStatement) con.prepareStatement(quary);
+            rs=pst.executeQuery();
+            
+            HashMap<Integer,String> hashMap=new HashMap<Integer,String>();
+            while(rs.next()){
+                hashMap.put(rs.getInt(1),rs.getString(2));
+            }
+            return hashMap;    
+        }catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        }
+        finally {
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }   
+    }
+    
+    public HashMap<Integer,String> getUserHasMap(){
+        try {
+            con=DriverManager.getConnection(url, username, password);
+            String quary="SELECT * FROM user";
+            pst=(PreparedStatement) con.prepareStatement(quary);
+            rs=pst.executeQuery();
+            
+            HashMap<Integer,String> hashMap=new HashMap<Integer,String>();
+            while(rs.next()){
+                hashMap.put(rs.getInt(1),rs.getString(2));
+            }
+            return hashMap;    
         }catch (SQLException ex) {
             System.out.println(ex);
             return null;

@@ -318,7 +318,9 @@ public class Analyze extends javax.swing.JFrame {
                 "Department", "First Aid", "LTI", "Near Miss", "Open Cases", "Closed Cases", "Total"
             }
         ));
-        tblDepartmentAccident.setColumnSelectionAllowed(true);
+        tblDepartmentAccident.setCellSelectionEnabled(false);
+        tblDepartmentAccident.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tblDepartmentAccident.setRowSelectionAllowed(true);
         jScrollPane1.setViewportView(tblDepartmentAccident);
         tblDepartmentAccident.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 

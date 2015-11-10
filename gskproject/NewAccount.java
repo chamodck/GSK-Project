@@ -245,6 +245,7 @@ public class NewAccount extends javax.swing.JFrame {
                             User user = new User();
                             user.setUserID(Integer.parseInt(txtUserID.getText()));
                             user.setUsername(txtUsername.getText());
+                            System.out.println(MD5.md5(txtUserID.getText()));
                             user.setPassword(MD5.md5(txtUserID.getText()));
                             user.setDesignation(ddDesignation.getSelectedItem().toString());
                             user.setDepartmentID(ddDepartment.getSelectedIndex() + 1);//dd eke thiyena department eke index departmentID kara

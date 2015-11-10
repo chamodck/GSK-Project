@@ -12,6 +12,7 @@ public class GskProject {
     public static void main(String[] args) {
         Login login=new Login();
         login.setVisible(true);
-        
+        //System.out.println(MD5.md5("3322"));
+        //System.out.println(MD5.md5(Integer.toString(3322)));
     }
 }
