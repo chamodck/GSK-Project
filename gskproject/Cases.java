@@ -12,6 +12,7 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,8 +22,11 @@ import javax.swing.table.DefaultTableModel;
 public class Cases extends javax.swing.JFrame {
     
     static ArrayList<User> userList;
+    static ArrayList<Object[]> depArray;
     public static HashMap<Integer,String> depMap;
+    //public static HashMap<String,Integer> depMap1;
     public static HashMap<Integer,String> userMap;
+    //public static HashMap<String,Integer> userMap1;
     
     DBOperations dbOps=new DBOperations();
     /**
@@ -30,7 +34,7 @@ public class Cases extends javax.swing.JFrame {
      */
     public Cases() {
         initComponents();
-        depMap=dbOps.getDepartmentNameIDHasMap();
+        depMap=dbOps.getDepartmentIDNameHasMap();
         userMap=dbOps.getUserHasMap();
         loadField();
         setIcon();
@@ -58,7 +62,7 @@ public class Cases extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         ddResponsibleParty = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox();
+        ddZap = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCases = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
@@ -75,6 +79,9 @@ public class Cases extends javax.swing.JFrame {
         ddAccidentType = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
         ddObservationType = new javax.swing.JComboBox();
+        jLabel9 = new javax.swing.JLabel();
+        ddKindOfSource = new javax.swing.JComboBox();
+        jButton8 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cases");
@@ -96,7 +103,7 @@ public class Cases extends javax.swing.JFrame {
 
         jLabel6.setText("ZAP State :");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All", "Open", "Close" }));
+        ddZap.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All", "Open", "Close" }));
 
         tblCases.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -172,11 +179,22 @@ public class Cases extends javax.swing.JFrame {
 
         jLabel7.setText("Accident Type :");
 
-        ddAccidentType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ddAccidentType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All", "First Aid", "Near Miss", "LTI" }));
 
         jLabel8.setText("Observation Type : ");
 
-        ddObservationType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ddObservationType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All", "Building and Maintenance", "Chemical Handling", "Ejected Machine Parts", "Electricity", "Fire & Emergency Preparedness", "Gravity", "House Keeping", "LOTO", "Manual Handling/ERGO", "Other", "People", "PPE", "PTW", "Sharp Edges/Sharp Objects", "SOP", "TRIP/SLIP", "Waste Management", "Work Equipment", "Work Place Transportation", "Working Environment", "ZA" }));
+
+        jLabel9.setText("Kind of Source :");
+
+        ddKindOfSource.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All", "BOT", "EHS GEMBA Observation", "First Aid", "L1 AUDIT ACTIONS", "L2 AUDIT ACTIONS", "Nearmiss", "Other Observation" }));
+
+        jButton8.setText("Reset");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -188,6 +206,20 @@ public class Cases extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton7))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(56, 56, 56)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(49, 49, 49)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(61, 61, 61)
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -209,40 +241,31 @@ public class Cases extends javax.swing.JFrame {
                                     .addComponent(ddObserver, 0, 145, Short.MAX_VALUE)
                                     .addComponent(ddDepartment, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(316, 316, 316)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(ddKindOfSource, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(39, 39, 39)
+                                        .addComponent(ddAccidentType, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addGap(18, 18, 18)
-                                        .addComponent(ddObservationType, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(ddAccidentType, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ddResponsibleParty, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox4, 0, 144, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(ddObservationType, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(56, 56, 56)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(49, 49, 49)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(61, 61, 61)
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(ddResponsibleParty, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(ddZap, 0, 144, Short.MAX_VALUE))))
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton8))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -252,9 +275,8 @@ public class Cases extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel1))
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
                             .addComponent(dtFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dtTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
@@ -264,7 +286,8 @@ public class Cases extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ddObserver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)))
+                            .addComponent(jLabel4)
+                            .addComponent(jButton8)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
@@ -275,18 +298,23 @@ public class Cases extends javax.swing.JFrame {
                             .addComponent(ddObservationType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(25, 25, 25))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(ddResponsibleParty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(ddResponsibleParty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel9)
+                                    .addComponent(ddKindOfSource, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                            .addComponent(ddZap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -296,7 +324,7 @@ public class Cases extends javax.swing.JFrame {
                     .addComponent(jButton5)
                     .addComponent(jButton6))
                 .addGap(44, 44, 44)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton7))
         );
@@ -308,12 +336,12 @@ public class Cases extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(50, 50, 50))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(36, 36, 36)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -330,34 +358,158 @@ public class Cases extends javax.swing.JFrame {
             ddResponsibleParty.addItem(u.getUsername());
         }
         
-        ArrayList<String> depArray=dbOps.getDepartmentNames();
+        depArray=dbOps.getDepartmentNameID();
         ddDepartment.addItem("All");
-        for(String dep:depArray){
-            ddDepartment.addItem(dep);
+        for(Object[] dep:depArray){
+            ddDepartment.addItem(dep[1]);
         }
     }    
+    
+    boolean isChanged() {
+        int count=0;
+        if (ddDepartment.getSelectedItem() != "All") {
+            count++;
+        }
+        if (ddObserver.getSelectedItem() != "All") {
+            count++;
+        }
+        if (ddResponsibleParty.getSelectedItem() != "All") {
+            count++;
+        }
+        if (ddZap.getSelectedItem() != "All") {
+            count++;
+        }
+        if (ddAccidentType.getSelectedItem() != "All") {
+            count++;
+        }
+        if (ddObservationType.getSelectedItem() != "All") {
+            count++;
+        }
+        if (ddKindOfSource.getSelectedItem() != "All") {
+            count++;
+        }
+        
+        if(count>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    void resetField(){
+        ddDepartment.setSelectedIndex(0);
+        ddObserver.setSelectedIndex(0);
+        ddResponsibleParty.setSelectedIndex(0);
+        ddZap.setSelectedIndex(0);
+        ddAccidentType.setSelectedIndex(0);
+        ddObservationType.setSelectedIndex(0);
+        ddKindOfSource.setSelectedIndex(0);
+        dtFrom.setDate(null);
+        dtTo.setDate(null);
+    }
     
     void loadTable(){
         java.sql.Date from;
         java.sql.Date to;
+        
+        String quary="";
         if (dtFrom.getDate() == null && dtTo.getDate() == null) {
-            from = null;
-            to = null;
+            quary="SELECT * FROM observation";
 
         } else if (dtFrom.getDate() == null) {
-            from = null;
+            //from = null;
             to = new java.sql.Date(dtTo.getDate().getTime());
+            quary="SELECT * FROM observation WHERE date <='"+to+"'";
 
         } else if (dtTo.getDate() == null) {
             from = new java.sql.Date(dtFrom.getDate().getTime());
-            to = null;
+            //to = null;
+            quary="SELECT * FROM observation WHERE date >='"+from+"'";
 
         } else {
             from = new java.sql.Date(dtFrom.getDate().getTime());
             to = new java.sql.Date(dtTo.getDate().getTime());
-
+            quary="SELECT * FROM observation WHERE (date BETWEEN '"+from+"' AND '"+to+"')";
         }
         
+        if (dtFrom.getDate() == null && dtTo.getDate() == null) {
+            if (isChanged()) {
+                quary += " WHERE";
+                int count = 0;
+                if (ddDepartment.getSelectedItem() != "All") {
+                    quary += " departmentID=" + depArray.get(ddDepartment.getSelectedIndex() - 1)[0];
+                    count++;
+                }
+                if (ddObserver.getSelectedItem() != "All") {
+                    if (count == 0) {
+                        quary += " observerID=" + userList.get(ddObserver.getSelectedIndex() - 1).getUserID();
+                    } else {
+                        quary += " AND observerID=" + userList.get(ddObserver.getSelectedIndex() - 1).getUserID();
+                    }
+                    count++;
+                }
+                if (ddResponsibleParty.getSelectedItem() != "All") {
+                    if (count == 0) {
+                        quary += " responsiblePartyID=" + userList.get(ddResponsibleParty.getSelectedIndex() - 1).getUserID();
+                    } else {
+                        quary += " AND responsiblePartyID=" + userList.get(ddResponsibleParty.getSelectedIndex() - 1).getUserID();
+                    }
+                    count++;
+
+                }
+                if (ddZap.getSelectedItem() != "All") {
+                    if (count == 0) {
+                        quary += " zapStatus='" + ddZap.getSelectedItem().toString() + "'";
+                    } else {
+                        quary += " AND zapStatus='" + ddZap.getSelectedItem().toString() + "'";
+                    }
+                }
+                if (ddAccidentType.getSelectedItem() != "All") {
+                    if (count == 0) {
+                        quary += " accidentType='" + ddAccidentType.getSelectedItem().toString() + "'";
+                    } else {
+                        quary += " AND accidentType='" + ddAccidentType.getSelectedItem().toString() + "'";
+                    }
+                }
+                if (ddObservationType.getSelectedItem() != "All") {
+                    if (count == 0) {
+                        quary += " observationType='" + ddObservationType.getSelectedItem().toString() + "'";
+                    } else {
+                        quary += " AND observationType='" + ddObservationType.getSelectedItem().toString() + "'";
+                    }
+                }
+                if (ddKindOfSource.getSelectedItem() != "All") {
+                    if (count == 0) {
+                        quary += " kindOfSource='" + ddKindOfSource.getSelectedItem().toString() + "'";
+                    } else {
+                        quary += " AND kindOfSource='" + ddKindOfSource.getSelectedItem().toString() + "'";
+                    }
+                }
+            }
+        } else {
+            if (ddDepartment.getSelectedItem() != "All") {
+                quary += " AND departmentID=" + depArray.get(ddDepartment.getSelectedIndex() - 1)[0];
+            }
+            if (ddObserver.getSelectedItem() != "All") {
+                quary += " AND observerID=" + userList.get(ddObserver.getSelectedIndex() - 1).getUserID();
+            }
+            if (ddResponsibleParty.getSelectedItem() != "All") {
+                quary += " AND responsiblePartyID=" + userList.get(ddResponsibleParty.getSelectedIndex() - 1).getUserID();
+            }
+            if (ddZap.getSelectedItem() != "All") {
+                quary += " AND zapStatus='" + ddZap.getSelectedItem().toString() + "'";
+            }
+            if (ddAccidentType.getSelectedItem() != "All") {
+                quary += " AND accidentType='" + ddAccidentType.getSelectedItem().toString() + "'";
+            }
+            if (ddObservationType.getSelectedItem() != "All") {
+                quary += " AND observationType='" + ddObservationType.getSelectedItem().toString() + "'";
+            }
+            if (ddKindOfSource.getSelectedItem() != "All") {
+                quary += " AND kindOfSource='" + ddKindOfSource.getSelectedItem().toString() + "'";
+            }
+        }
+        //System.out.println(quary);
         Vector<String> columnNames = new Vector<String>();
         columnNames.addElement("Date");
         columnNames.addElement("Observation ID");
@@ -371,7 +523,10 @@ public class Cases extends javax.swing.JFrame {
         columnNames.addElement("Target Date");
         columnNames.addElement("Closed Date");
         columnNames.addElement("ZAP State");
-        Vector<Vector> table=dbOps.getAllCases(from, to);
+        Vector<Vector> table=dbOps.getAllCases(quary);
+        if(table.size()==0){
+            JOptionPane.showMessageDialog(this, "There are no observations!");
+        }
         tblCases.setModel(new DefaultTableModel(table, columnNames));
     }
     
@@ -395,6 +550,11 @@ public class Cases extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         loadTable();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        resetField();
+        loadTable();
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -437,9 +597,11 @@ public class Cases extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JComboBox ddAccidentType;
     private javax.swing.JComboBox ddDepartment;
+    private javax.swing.JComboBox ddKindOfSource;
     private javax.swing.JComboBox ddObservationType;
     private javax.swing.JComboBox ddObserver;
     private javax.swing.JComboBox ddResponsibleParty;
+    private javax.swing.JComboBox ddZap;
     private com.toedter.calendar.JDateChooser dtFrom;
     private com.toedter.calendar.JDateChooser dtTo;
     private javax.swing.JButton jButton1;
@@ -449,7 +611,7 @@ public class Cases extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox jComboBox4;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -458,6 +620,7 @@ public class Cases extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

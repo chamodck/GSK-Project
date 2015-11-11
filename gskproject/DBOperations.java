@@ -889,20 +889,9 @@ public class DBOperations {
         }   
     }
     
-    public Vector<Vector> getAllCases(java.sql.Date from,java.sql.Date to){
+    public Vector<Vector> getAllCases(String quary){
         try {
             con=DriverManager.getConnection(url, username, password);
-            String quary="";
-            if(from==null && to==null){
-                quary="SELECT * FROM observation";
-            }else if(to==null){
-                quary="SELECT * FROM observation WHERE date >='"+from+"'";
-            }else if(from==null){
-                quary="SELECT * FROM observation WHERE date <='"+to+"'";
-            }else{
-                quary="SELECT * FROM observation WHERE (date BETWEEN '"+from+"' AND '"+to+"')";
-            }
-            
             pst=(PreparedStatement) con.prepareStatement(quary);
             rs=pst.executeQuery();
             
@@ -1008,7 +997,7 @@ public class DBOperations {
         }   
     }
     
-    public HashMap<Integer,String> getDepartmentNameIDHasMap(){
+    public HashMap<Integer,String> getDepartmentIDNameHasMap(){
         try {
             con=DriverManager.getConnection(url, username, password);
             String quary="SELECT * FROM department";
