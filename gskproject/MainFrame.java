@@ -1,6 +1,8 @@
 package gskproject;
 
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JOptionPane;
 
 /**
@@ -8,7 +10,7 @@ import javax.swing.JOptionPane;
  * @author chamod
  */
 public class MainFrame extends javax.swing.JFrame {
-
+    static boolean isRestart=false;
     DBOperations dbOps=new DBOperations();
     
     public MainFrame() {
@@ -80,7 +82,7 @@ public class MainFrame extends javax.swing.JFrame {
         jRadioButtonMenuItem2.setSelected(true);
         jRadioButtonMenuItem2.setText("jRadioButtonMenuItem2");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Unsafe Observations Reporting and Analyzing system");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setPreferredSize(new java.awt.Dimension(3269, 730));
@@ -284,17 +286,64 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         NewCase newCase=new NewCase();
         newCase.setVisible(true);
+      
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         RelatedCases relatedCases=new RelatedCases();
         relatedCases.setVisible(true);
+        
     }//GEN-LAST:event_jButton4ActionPerformed
-
+    public void close(){
+        this.dispose();
+    }
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+
         Logout logout = new Logout();
         logout.setVisible(true);
         
+        logout.addWindowListener(new WindowListener(){
+
+            @Override
+            public void windowOpened(WindowEvent e) {
+                
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(isRestart){
+                    
+                    close();
+                    
+                }
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+                
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+                
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+                
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+                
+            }
+            
+        }); 
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
