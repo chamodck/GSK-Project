@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author chamod
+ * @author sumi
  */
 public class DeleteUser extends javax.swing.JFrame {
 
@@ -24,6 +24,7 @@ public class DeleteUser extends javax.swing.JFrame {
     }
     
     DBOperations dbOps=new DBOperations();
+    
     static User whichUser;
 
     /**
