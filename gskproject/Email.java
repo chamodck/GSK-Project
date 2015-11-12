@@ -30,24 +30,33 @@ public class Email extends javax.swing.JFrame {
         setIcon();
     }
 
-    public class Progreso implements ActionListener{
-        public void actionPerformed(ActionEvent evt){
-            int n=progressBar.getValue();
-            
-            if(n<100){
+    static int value;
+    public class Progreso implements ActionListener {
+
+        public void actionPerformed(ActionEvent evt) {
+            int n = progressBar.getValue();
+
+            if (n < 100) {
                 n++;
                 progressBar.setValue(n);
-            }else{
+            } else {
                 timer.stop();//stop the timer it means email successfully send
-                JOptionPane.showMessageDialog(null, "Email send successfully");
-                progressBar.setValue(0);//set the bar to 0
-                receiverEmail.setText("");//set the email text ""
-                txtSubject.setText("");
-                txtmessage.setText("");
-                txtFilePath.setText("");
-                
+                if (value == 1) {
+                    JOptionPane.showMessageDialog(null, "Email send successfully");
+                    progressBar.setValue(0);//set the bar to 0
+                    //txtMyEmailAddress.setText("");//set the email text ""
+                    //txtMyPassword.setText("");
+                    receiverEmail.setText("");
+                    txtSubject.setText("");
+                    txtmessage.setText("");
+                    txtFilePath.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Email did not sent. Try Again.!");
+                }
+
+                //txtFilePath.setText("");
             }
-        
+
         }
     }
     
@@ -195,21 +204,26 @@ public class Email extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
-        timer.start();//start the timer
-        //Email sendEmail = new Email();//crete the Email object
-        String receiverMailAddress = receiverEmail.getText().toString();//get the receiver email from text field
-        //System.out.println(receiverEmail.toString());
-        String subject = txtSubject.getText().toString();//get the subject given in the text field
-        String message = txtmessage.getText().toString();//get the message body given in the text field
+        if (!validateFields()) {//if give text fields emty it is a error
+            return;
+        } else {
+            timer.start();//start the timer
+            //Email sendEmail = new Email();//crete the Email object
+            String receiverMailAddress = receiverEmail.getText().toString();//get the receiver email from text field
+            //System.out.println(receiverEmail.toString());
+            String subject = txtSubject.getText().toString();//get the subject given in the text field
+            String message = txtmessage.getText().toString();//get the message body given in the text field
 
-        boolean result = isValidEmailAddress(receiverMailAddress);
+            boolean result = isValidEmailAddress(receiverMailAddress);
 
-        if (result == true) {
-            MailSender mailSender = new MailSender(receiverMailAddress, subject, message);
-            //JOptionPane.showMessageDialog(this, "Email send successfully");
-            
-        }else{
-            JOptionPane.showMessageDialog(this, "Incorrect email address");
+            if (result == true) {
+                //MailSender mailSender = new MailSender(receiverMailAddress, subject, message);
+                MailSender email = new MailSender();
+                value = email.isEmailSend(receiverMailAddress, subject, message);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Incorrect email address");
+            }
         }
 
 
@@ -280,10 +294,10 @@ public class Email extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JProgressBar progressBar;
-    public javax.swing.JTextField receiverEmail;
-    public javax.swing.JTextField txtFilePath;
-    public javax.swing.JTextPane txtSubject;
-    public javax.swing.JTextArea txtmessage;
+    public static javax.swing.JTextField receiverEmail;
+    public static javax.swing.JTextField txtFilePath;
+    public static javax.swing.JTextPane txtSubject;
+    public static javax.swing.JTextArea txtmessage;
     // End of variables declaration//GEN-END:variables
 
     private void setIcon() {
@@ -300,5 +314,27 @@ public class Email extends javax.swing.JFrame {
             result = false;
         }
         return result;
+    }
+    private static boolean validateFields() {
+        
+        
+        if (receiverEmail.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Please enter receiver Address!", "Error", JOptionPane.ERROR_MESSAGE);
+            //fieldSubject.requestFocus();
+            return false;
+        }
+        if (txtSubject.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Please enter subject!", "Error", JOptionPane.ERROR_MESSAGE);
+            //fieldSubject.requestFocus();
+            return false;
+        }
+
+        if (txtmessage.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Please enter message!", "Error", JOptionPane.ERROR_MESSAGE);
+            //textAreaMessage.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 }
