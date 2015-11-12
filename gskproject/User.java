@@ -2,7 +2,7 @@ package gskproject;
 
 /**
  *
- * @author chamod
+ * @author sumi
  */
 public class User {
     private int userID;

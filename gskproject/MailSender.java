@@ -9,9 +9,7 @@ package gskproject;
  *
  * @author sumi
  */
-//import static emailappforme.Email.filePath;
-//import static emailappforme.Email.txtMyEmailAddress;
-//import static emailappforme.Email.txtMyPassword;
+
 import static gskproject.Email.filePath;
 import java.util.Properties;
 import javax.activation.DataHandler;

@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 /**
  *
- * @author chamod
+ * @author sumi
  */
 public class Email extends javax.swing.JFrame {
 
@@ -44,8 +44,8 @@ public class Email extends javax.swing.JFrame {
                 if (value == 1) {
                     JOptionPane.showMessageDialog(null, "Email send successfully");
                     progressBar.setValue(0);//set the bar to 0
-                    //txtMyEmailAddress.setText("");//set the email text ""
-                    //txtMyPassword.setText("");
+                    
+                    
                     receiverEmail.setText("");
                     txtSubject.setText("");
                     txtmessage.setText("");
@@ -217,7 +217,6 @@ public class Email extends javax.swing.JFrame {
             boolean result = isValidEmailAddress(receiverMailAddress);
 
             if (result == true) {
-                //MailSender mailSender = new MailSender(receiverMailAddress, subject, message);
                 MailSender email = new MailSender();
                 value = email.isEmailSend(receiverMailAddress, subject, message);
 
