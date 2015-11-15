@@ -13,7 +13,10 @@ import com.jtattoo.plaf.mint.MintLookAndFeel;
 import com.jtattoo.plaf.noire.NoireLookAndFeel;
 import com.jtattoo.plaf.smart.SmartLookAndFeel;
 import com.jtattoo.plaf.texture.TextureLookAndFeel;
+import static gskproject.MainFrame.isRestart;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.metal.MetalLookAndFeel;
@@ -164,19 +167,98 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(txtUsername.getText().equals("") && txtPassword.getText().equals("")){
+        if (txtUsername.getText().equals("") && txtPassword.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Enter username and password!");
-        }else if(txtUsername.getText().equals("")){
+        } else if (txtUsername.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Enter username!");
-        }else if(txtPassword.getText().equals("")){
+        } else if (txtPassword.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Enter password!");
         } else {
             int result = dbOps.checkUsernamePassword(txtUsername.getText(), MD5.md5(txtPassword.getText()));
             if (result == 1) {
                 GskProject.currentUser = txtUsername.getText();
                 this.dispose();
-                MainFrame mainFrame = new MainFrame();
+                final MainFrame mainFrame = new MainFrame();
                 mainFrame.setVisible(true);
+                mainFrame.addWindowListener(new WindowListener() {
+
+                    @Override
+                    public void windowOpened(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        Logout logout= new Logout();
+                        logout.setVisible(true);
+                        logout.addWindowListener(new WindowListener() {
+
+                            @Override
+                            public void windowOpened(WindowEvent e) {
+
+                            }
+
+                            @Override
+                            public void windowClosing(WindowEvent e) {
+
+                            }
+
+                            @Override
+                            public void windowClosed(WindowEvent e) {
+                                if(MainFrame.isRestart){
+                                    mainFrame.close();
+                                }
+                            }
+
+                            @Override
+                            public void windowIconified(WindowEvent e) {
+
+                            }
+
+                            @Override
+                            public void windowDeiconified(WindowEvent e) {
+
+                            }
+
+                            @Override
+                            public void windowActivated(WindowEvent e) {
+
+                            }
+
+                            @Override
+                            public void windowDeactivated(WindowEvent e) {
+
+                            }
+
+                        });
+                    }
+
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowIconified(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowDeiconified(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowActivated(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowDeactivated(WindowEvent e) {
+
+                    }
+
+                });
             } else if (result == 0) {
                 JOptionPane.showMessageDialog(this, "Invalid Username,Password !");
                 txtUsername.setText("");
