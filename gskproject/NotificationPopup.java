@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gskproject;
 
 /**
@@ -13,6 +12,7 @@ package gskproject;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -22,6 +22,10 @@ import java.awt.Insets;
 import java.awt.LinearGradientPaint;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -29,12 +33,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import static simz1.LoginFrame1.mhp;
+//import static simz1.LoginFrame1.mhp;
 
 public class NotificationPopup extends JDialog {
 
     private final LinearGradientPaint lpg;
-    public JButton b2;
+    public JButton btnmoreDetails;
 
     public NotificationPopup() {
         setUndecorated(true);
@@ -79,18 +83,38 @@ public class NotificationPopup extends JDialog {
         }
     }
 
-    public void main1(String message) {
+    public void popupMessage(String message) {
         final NotificationPopup f = new NotificationPopup();
-        final String msg = message;
+        final String msg = message;//need to give the  message
 
-        b2 = new JButton(new AbstractAction("Click here to view alerts") {
+        /*MouseListener mouseListener = new MouseAdapter() {
 
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                
-                mhp.jTabbedPane1.setSelectedIndex(4);
+         public void mouseClicked(MouseEvent e) {
+         Notification n = new Notification();
+         n.setVisible(true);
+         }
+
+         };*/
+        btnmoreDetails = new JButton();
+        btnmoreDetails.setText("Click here to view alerts");
+        btnmoreDetails.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                RelatedCases cases = new RelatedCases();
+                cases.setVisible(true);
             }
         });
+        //btnmoreDetails.addMouseListener(mouseListener);
+        //NotificationPopup.add(btnmoreDetails);
+        //moreDetails.setVisible(true);
+        /*btnmoreDetails = new JButton(new AbstractAction("Click here to view alerts") {
+
+         @Override
+         public void actionPerformed(final ActionEvent e) {
+         //Notification notification = new Notification();
+         //notification.setVisible(true);
+         //mhp.jTabbedPane1.setSelectedIndex(4);
+         }
+         });*/
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -145,10 +169,9 @@ public class NotificationPopup extends JDialog {
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.SOUTHWEST;
 
-                b2.setOpaque(true);
-                b2.setFocusable(false);
-
-                c.add(b2, constraints);
+                btnmoreDetails.setOpaque(true);
+                btnmoreDetails.setFocusable(false);
+                c.add(btnmoreDetails, constraints);
                 //adding button finished................
                 f.setVisible(true);
             }
@@ -159,7 +182,7 @@ public class NotificationPopup extends JDialog {
             public void run() {
                 try {
                     Thread.sleep(15000); // time after which pop up will be disappeared.
-                    f.dispose();
+                    f.dispose();//f is from method i written in 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -172,4 +195,3 @@ public class NotificationPopup extends JDialog {
         
     }
 }
-

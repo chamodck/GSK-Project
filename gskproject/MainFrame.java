@@ -54,7 +54,7 @@ public class MainFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnNotification = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         btnAdmin = new javax.swing.JButton();
         canvas1 = new java.awt.Canvas();
@@ -114,11 +114,11 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Apps-Notifications-icon.png"))); // NOI18N
-        jButton5.setText("Notifications (3)");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnNotification.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Apps-Notifications-icon.png"))); // NOI18N
+        btnNotification.setText("Notifications ");
+        btnNotification.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnNotificationActionPerformed(evt);
             }
         });
 
@@ -167,7 +167,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNotification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -225,7 +225,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(49, 49, 49)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton5)
+                        .addComponent(btnNotification)
                         .addGap(48, 48, 48)
                         .addComponent(jButton3)
                         .addGap(54, 54, 54)
@@ -269,11 +269,13 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        Notification notification=new Notification();
-        notification.setVisible(true);
+    private void btnNotificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificationActionPerformed
+        //Notification notification=new Notification();
+        //notification.setVisible(true);
+        NotificationPopup a =new NotificationPopup();
+        a.popupMessage("You are mentioned as a responsible party for case 100235");
         
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btnNotificationActionPerformed
 
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
 
@@ -344,12 +346,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdmin;
+    private javax.swing.JButton btnNotification;
     private java.awt.Canvas canvas1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

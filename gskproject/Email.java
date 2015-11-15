@@ -221,7 +221,8 @@ public class Email extends javax.swing.JFrame {
                 value = email.isEmailSend(receiverMailAddress, subject, message);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Incorrect email address");
+                JOptionPane.showMessageDialog(null, "Incorrect email address", "Error", JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(this, "Incorrect email address");
             }
         }
 
