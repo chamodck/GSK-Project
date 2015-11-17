@@ -13,13 +13,17 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 public class DBOperations {
-    String url="jdbc:mysql://127.0.0.1:3306/gskproject?useUnicode=true&characterEncoding=utf-8";//url=jdbc:mysql://hostname/ databaseName
-    String username="root";
-    String password="";
-    String database="gskproject";
+    static String url="jdbc:mysql://127.0.0.1:3306/gskproject?useUnicode=true&characterEncoding=utf-8";//url=jdbc:mysql://hostname/ databaseName
+    static String username="root";
+    static String password="";
+    static String database="gskproject";
     Connection con=null;
     PreparedStatement pst=null;
     ResultSet rs=null;
+    
+    static Connection con1=null;
+    static PreparedStatement pst1=null;
+    static ResultSet rs1=null;
     
     public Connection backupDB(){
         try{
@@ -1155,5 +1159,99 @@ public class DBOperations {
                 System.out.println(ex);
             }
         }   
+    }
+    
+    public  static Vector<Vector> getNotiTableAsResponsible(int userID){
+        try {
+            con1=DriverManager.getConnection(url, username, password);
+            String quary="SELECT * FROM notification WHERE userID="+userID+" AND userCheck=0";
+            pst1=(PreparedStatement) con1.prepareStatement(quary);
+            rs1=pst1.executeQuery();
+            
+            Vector<Vector> set=new Vector<Vector>();
+            while(rs1.next()){
+                Vector<Object> row=new Vector<Object>();
+                if (rs1.getString(3).equals("insert")){
+                    row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" mention you as responsible for the ObservationID : "+rs1.getInt(2));
+                }else if(rs1.getString(3).equals("update")){
+                    row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" Update the ObservationID : "+rs1.getInt(2));
+                }else{
+                    row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" Delete the ObservationID : "+rs1.getInt(2));
+                }
+                row.addElement(rs1.getInt(1));
+                row.addElement(rs1.getInt(2));               
+                set.addElement(row);
+            } 
+            return set;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        }
+        finally {
+            try {
+                if (pst1 != null) {
+                    pst1.close();
+                }
+                
+                if (con1 != null) {
+                    con1.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        } 
+    }
+    
+    public  static ArrayList<ArrayList<Object>> getPopupAlertAsResponsible(int userID){
+        try { 
+            con1=DriverManager.getConnection(url, username, password);
+            String quary="SELECT * FROM notification WHERE userID="+userID+" AND sendToUser=0";
+            pst1=(PreparedStatement) con1.prepareStatement(quary);
+            rs1=pst1.executeQuery();
+            
+            
+            ArrayList<ArrayList<Object>> set=new ArrayList<ArrayList<Object>>();
+            ArrayList<Object> insert=new ArrayList<Object>();
+            ArrayList<Object> update=new ArrayList<Object>();
+            ArrayList<Object> delete=new ArrayList<Object>();
+            while(rs1.next()){  
+                if (rs1.getString(3).equals("insert")){
+                    insert.add(rs1.getInt(2));
+                }else if(rs1.getString(3).equals("update")){
+                    update.add(rs1.getInt(2));
+                }else{
+                    delete.add(rs1.getInt(2));
+                } 
+                String updateQuary="UPDATE notification SET sendToUser=1 WHERE notiID="+rs1.getInt(1);
+                pst1=(PreparedStatement) con1.prepareStatement(updateQuary);
+                pst1.executeUpdate();
+            }
+            if(insert.size()>0 || update.size()>0 || delete.size()>0){
+                set.add(insert);
+                set.add(update);
+                set.add(delete);
+                return set;
+            }else{
+                return null;
+            }
+            
+            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        }
+        finally {
+            try {
+                if (pst1 != null) {
+                    pst1.close();
+                }
+                
+                if (con1 != null) {
+                    con1.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        } 
     }
 }

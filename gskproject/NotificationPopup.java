@@ -42,7 +42,7 @@ public class NotificationPopup extends JDialog {
 
     public NotificationPopup() {
         setUndecorated(true);
-        setSize(300, 100);
+        setSize(400, 100);
 
         // size of the screen
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -85,7 +85,7 @@ public class NotificationPopup extends JDialog {
 
     public void popupMessage(String message) {
         final NotificationPopup f = new NotificationPopup();
-        final String msg = message;//need to give the  message
+        final String msg = message;//need to give the message
 
         /*MouseListener mouseListener = new MouseAdapter() {
 
@@ -189,7 +189,6 @@ public class NotificationPopup extends JDialog {
             }
         ;
     }
-
 
 .start();
         

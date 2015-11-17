@@ -177,9 +177,18 @@ public class Login extends javax.swing.JFrame {
             int result = dbOps.checkUsernamePassword(txtUsername.getText(), MD5.md5(txtPassword.getText()));
             if (result == 1) {
                 GskProject.currentUser = txtUsername.getText();
+                User user=dbOps.getCurrentUser();
+                if (user != null) {
+                    GskProject.currentUserID=user.getUserID();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error occured while getCurrentUser");
+                }
+                
+                
                 this.dispose();
                 final MainFrame mainFrame = new MainFrame();
                 mainFrame.setVisible(true);
+                
                 mainFrame.addWindowListener(new WindowListener() {
 
                     @Override

@@ -3,6 +3,7 @@ package gskproject;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,10 +13,11 @@ import javax.swing.JOptionPane;
 public class MainFrame extends javax.swing.JFrame {
     static boolean isRestart=false;
     DBOperations dbOps=new DBOperations();
+    static HashMap<Integer,String> userMap;
     
     public MainFrame() {
         initComponents();
-        
+        userMap=dbOps.getUserHasMap();
         int result=dbOps.isAdmin();
         
         if(result==0){
@@ -25,13 +27,9 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Error occured while check isAdmin!");
         }
         
-        User user=dbOps.getCurrentUser();
-        if(user!=null){
-            lblCurrentUser.setText(GskProject.currentUser + "(" + user.getUserID() + ")");
-            lblDate.setText(DateTime.getDate());
-        }else{
-            JOptionPane.showMessageDialog(this,"Error occured while getCurrentUser");
-        } 
+        lblCurrentUser.setText(GskProject.currentUser + "(" + GskProject.currentUserID + ")");
+        lblDate.setText(DateTime.getDate());
+        
         setIcon();
     }
 
@@ -272,15 +270,11 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnNotificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificationActionPerformed
-        //Notification notification=new Notification();
-        //notification.setVisible(true);
-        NotificationPopup a =new NotificationPopup();
-        a.popupMessage("You are mentioned as a responsible party for case 100235");
-        
+        Notification notification=new Notification();
+        notification.setVisible(true); 
     }//GEN-LAST:event_btnNotificationActionPerformed
 
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
-
         Admin admin = new Admin();
         admin.setVisible(true);
     }//GEN-LAST:event_btnAdminActionPerformed
@@ -288,7 +282,6 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         NewCase newCase=new NewCase();
         newCase.setVisible(true);
-      
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
