@@ -30,6 +30,7 @@ public class RelatedCases extends javax.swing.JFrame {
     static Vector<Vector> tableObserver;
     static Vector<Vector> tableResponsibleParty;
     public static User currentUser;
+    static int selectedRow=-1;
     
     //ArrayList<User> userList;
     
@@ -37,10 +38,45 @@ public class RelatedCases extends javax.swing.JFrame {
         initComponents();
         currentUser=dbOps.getCurrentUser();
         loadTables();
+        if(selectedRow>=0){
+            tblAsAResponsibleParty.setRowSelectionInterval(selectedRow,selectedRow);
+        }
+        
         setIcon();
     }
-private void setIcon() {
-    setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("Icon.png")));}
+    private void setIcon() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("Icon.png")));
+    }
+    
+    public int getSelectedRow(int obID){
+        int row=0;
+        for(Vector a:tableResponsibleParty){
+            if(Integer.parseInt(a.get(1).toString())==obID){
+                return row;
+            }
+            row++;
+        }
+        return -1;
+    }
+    
+    public void setSelectedRow(int row){
+        tblAsAResponsibleParty.setRowSelectionInterval(row, row);
+    }
+    
+    public int getSelectedRowTableOb(int obID){
+        int row=0;
+        for(Vector a:tableObserver){
+            if(Integer.parseInt(a.get(1).toString())==obID){
+                return row;
+            }
+            row++;
+        }
+        return -1;
+    }
+    
+    public void setSelectedRowTableOb(int row){
+        tblAsAObserver.setRowSelectionInterval(row, row);
+    }
     
     void loadTables(){
         columnNames1=new Vector<String>();

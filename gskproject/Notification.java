@@ -7,7 +7,9 @@ package gskproject;
 
 import java.awt.Color;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,22 +22,40 @@ public class Notification extends javax.swing.JFrame {
     /**
      * Creates new form Notification
      */
-    static Vector<String> columnNames=new Vector<String>();
+    //declare data structures to hols notification table dada
     static Vector<Vector> table;
+    static ArrayList<Integer[]> columnData;
+    DBOperations dbOps=new DBOperations();
+    boolean isAdmin;
     
     public Notification() {
         initComponents();
         setIcon();
         tableLoad();
     }
-    
+    //load notification table
     void tableLoad(){
-        table=DBOperations.getNotiTableAsResponsible(GskProject.currentUserID);
-        //columnNames.addElement("Notification ID");
-        columnNames.addElement("Notification");
-        tblNotification.setModel(new DefaultTableModel(table, columnNames));
+        if(dbOps.isAdmin()==1){
+            isAdmin=true;
+            Object[] set = DBOperations.getNotiTableAsAdmin(GskProject.currentUserID);
+            table = (Vector<Vector>) set[0];//get data from database and cast to result output to Vector
+            columnData = (ArrayList<Integer[]>) set[1];//get data from database and cast to result output to arraylist
+            Vector<String> columnNames = new Vector<String>();//set table column
+            columnNames.addElement("Notification");
+            tblNotification.setModel(new DefaultTableModel(table, columnNames));//load notification table
+        } else if (dbOps.isAdmin()==0) {
+            isAdmin=false;
+            Object[] set = DBOperations.getNotiTableAsResponsible(GskProject.currentUserID);
+            table = (Vector<Vector>) set[0];//get data from database and cast to result output to Vector
+            columnData = (ArrayList<Integer[]>) set[1];//get data from database and cast to result output to arraylist
+            Vector<String> columnNames = new Vector<String>();//set table column
+            columnNames.addElement("Notification");
+            tblNotification.setModel(new DefaultTableModel(table, columnNames));//load notification table
+        }else{
+            JOptionPane.showMessageDialog(this,"Error occur while check is admin!");
+        }
     }
-
+    //set gsk logo for title bar
     private void setIcon() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("Icon.png")));
     }
@@ -55,6 +75,7 @@ public class Notification extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Notifications");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 102, 0));
@@ -72,6 +93,11 @@ public class Notification extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblNotification);
 
         jButton1.setText("Check");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -119,7 +145,66 @@ public class Notification extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (tblNotification.getSelectedRow() != -1) {//check click a notification on notification table
+            if(isAdmin){
+                if (columnData.get(tblNotification.getSelectedRow())[2] ==2) {
+                    Cases cases=new Cases();
+                    cases.loadTable();
+                    int obID = columnData.get(tblNotification.getSelectedRow())[1];
+                    int row=cases.getSelectedRow(obID);
+                    cases.setSelectedRow(row);
+                    cases.setVisible(true);
+                    this.dispose();
+                    int notiID = columnData.get(tblNotification.getSelectedRow())[0];
+                    if (!dbOps.removeNotiAfterAdminCheck1(notiID)) {//remove checked notification from table
+                        JOptionPane.showMessageDialog(this, "Error occur while remove notification!");
+                    }  
+                } else {
+                    RelatedCases rCases = new RelatedCases();
+                    //get select row number
+                    int obID = columnData.get(tblNotification.getSelectedRow())[1];
+                    
+                    if (columnData.get(tblNotification.getSelectedRow())[2] == 0) {
+                        int row = rCases.getSelectedRow(obID);
+                        rCases.setSelectedRow(row);
+                    } else {
+                        int row = rCases.getSelectedRowTableOb(obID);
+                        rCases.setSelectedRowTableOb(row);
+                    }
+                    
+                    rCases.setVisible(true);
+                    this.dispose();
+                    int notiID = columnData.get(tblNotification.getSelectedRow())[0];
+                    if (!dbOps.removeNotiAfterAdminCheck2(notiID)) {//remove checked notification from table
+                        JOptionPane.showMessageDialog(this, "Error occur while remove notification!");
+                    }
+                }
+            } else {
+                RelatedCases rCases = new RelatedCases();
+                //get select row number
+                int obID = columnData.get(tblNotification.getSelectedRow())[1];
+                if(columnData.get(tblNotification.getSelectedRow())[2]==0){
+                    int row = rCases.getSelectedRow(obID);
+                    rCases.setSelectedRow(row);
+                }else{
+                    int row = rCases.getSelectedRowTableOb(obID);
+                    rCases.setSelectedRowTableOb(row);
+                }
+                rCases.setVisible(true);
+                this.dispose();
+                int notiID = columnData.get(tblNotification.getSelectedRow())[0];
+                if (!dbOps.removeNotiAfterResCheck(notiID, GskProject.currentUserID)) {//remove checked notification from table
+                    JOptionPane.showMessageDialog(this, "Error occur while remove notification!");
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(this,"Please Select a Notification!");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

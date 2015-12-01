@@ -95,7 +95,7 @@ public class MapObserver extends javax.swing.JFrame {
     }
         
     public void ImportImage(int map) throws IOException {   
-        String pic =("C:\\Users\\chamod\\Documents\\NetBeansProjects\\GskProject\\src\\Images\\"+map+".jpg");
+        String pic =("C:\\Users\\sumi\\Desktop\\project codes\\Iteration5\\GskProject\\src\\Images\\"+map+".jpg");
         File imagefile = new File(pic);
         image = ImageIO.read(imagefile);
         Graphics2D g =image.createGraphics();
@@ -121,11 +121,17 @@ public class MapObserver extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Map For Observer");
 
         lblMap.setPreferredSize(new java.awt.Dimension(500, 500));
 
         ddDepartment.setEnabled(false);
+        ddDepartment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ddDepartmentActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Select the Department");
 
@@ -264,6 +270,10 @@ public class MapObserver extends javax.swing.JFrame {
         ddDepartment.setEnabled(true);
         ddColor.setEnabled(true);
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void ddDepartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddDepartmentActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ddDepartmentActionPerformed
 
     /**
      * @param args the command line arguments

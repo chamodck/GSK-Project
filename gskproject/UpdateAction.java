@@ -195,6 +195,15 @@ public class UpdateAction extends javax.swing.JFrame {
             MoreDetailsRes.actionTable.get(rowNumber).add(1,txtDescription.getText());
             MoreDetailsRes.actionTable.get(rowNumber).add(2,ddActionStatus.getSelectedItem());
             MoreDetailsRes.actionTable.get(rowNumber).add(3,ddPriorityNumber.getSelectedItem());
+            int result1=dbOps.zapClose(MoreDetailsRes.observationID);
+            if(result1==0){
+                JOptionPane.showMessageDialog(this, "Observation "+MoreDetailsRes.observationID+" ZAP Closed");
+                if(!dbOps.zapCloseNoti(MoreDetailsRes.observationID, MoreDetailsRes.observerID, GskProject.currentUserID)){
+                    JOptionPane.showMessageDialog(this, "Error occur while insert into notification!");
+                }
+            }else if(result1==2){
+                JOptionPane.showMessageDialog(this, "Error occur while zapClose!");
+            }
             this.dispose();
         }else{
             JOptionPane.showMessageDialog(this, "error occour while updating!");

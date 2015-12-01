@@ -57,8 +57,8 @@ public class NotificationPopup extends JDialog {
 
         // background paint
         lpg = new LinearGradientPaint(0, 0, 0, getHeight() / 2, new float[]{0f,
-            0.3f, 1f}, new Color[]{new Color(0.8f, 0.8f, 1f),
-            new Color(0.7f, 0.7f, 1f), new Color(0.6f, 0.6f, 1f)});
+            0.3f, 1f}, new Color[]{new Color(255, 204, 153),
+            new Color(255,192,128), new Color(255,128,0)});
 
         // blue background panel
         setContentPane(new BackgroundPanel());
@@ -96,11 +96,11 @@ public class NotificationPopup extends JDialog {
 
          };*/
         btnmoreDetails = new JButton();
-        btnmoreDetails.setText("Click here to view alerts");
+        btnmoreDetails.setText("Show Notifications");
         btnmoreDetails.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
-                RelatedCases cases = new RelatedCases();
-                cases.setVisible(true);
+                Notification noti = new Notification();
+                noti.setVisible(true);
             }
         });
         //btnmoreDetails.addMouseListener(mouseListener);

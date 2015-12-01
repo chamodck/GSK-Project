@@ -105,7 +105,7 @@ public class Map extends javax.swing.JFrame {
     }
         
     public void ImportImage(int map) throws IOException {   
-        String pic =("C:\\Users\\chamod\\Documents\\NetBeansProjects\\GskProject\\src\\Images\\"+map+".jpg");
+        String pic =("C:\\Users\\sumi\\Desktop\\project codes\\Iteration5\\GskProject\\src\\Images\\"+map+".jpg");
         File imagefile = new File(pic);
         image = ImageIO.read(imagefile);
         Graphics2D g =image.createGraphics();

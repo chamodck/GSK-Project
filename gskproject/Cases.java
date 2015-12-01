@@ -27,7 +27,7 @@ public class Cases extends javax.swing.JFrame {
     //public static HashMap<String,Integer> depMap1;
     public static HashMap<Integer,String> userMap;
     //public static HashMap<String,Integer> userMap1;
-    
+    static Vector<Vector> table;
     DBOperations dbOps=new DBOperations();
     /**
      * Creates new form Cases
@@ -348,7 +348,21 @@ public class Cases extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public int getSelectedRow(int obID){
+        int row=0;
+        for(Vector a:table){
+            if(Integer.parseInt(a.get(1).toString())==obID){
+                return row;
+            }
+            row++;
+        }
+        return -1;
+    }
+    
+    public void setSelectedRow(int row){
+        tblCases.setRowSelectionInterval(row, row);
+    }
+    
     void loadField(){
         userList=dbOps.getUser();
         ddObserver.addItem("All");
@@ -523,7 +537,7 @@ public class Cases extends javax.swing.JFrame {
         columnNames.addElement("Target Date");
         columnNames.addElement("Closed Date");
         columnNames.addElement("ZAP State");
-        Vector<Vector> table=dbOps.getAllCases(quary);
+        table=dbOps.getAllCases(quary);
         if(table.size()==0){
             JOptionPane.showMessageDialog(this, "There are no observations!");
         }

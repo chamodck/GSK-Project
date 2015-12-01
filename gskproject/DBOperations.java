@@ -11,10 +11,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.JOptionPane;
+import java.net.*;
+import java.io.*;
 
 public class DBOperations {
-    static String url="jdbc:mysql://127.0.0.1:3306/gskproject?useUnicode=true&characterEncoding=utf-8";//url=jdbc:mysql://hostname/ databaseName
-    static String username="root";
+    //URL url=new URL("");
+    static String url="jdbc:mysql://54.213.246.132:3306/gskproject";//url=jdbc:mysql://hostname/ databaseName
+    static String username="sumith";
     static String password="";
     static String database="gskproject";
     Connection con=null;
@@ -411,6 +414,7 @@ public class DBOperations {
             }
         }     
     }
+    
     
     public User getCurrentUser(){
         try {
@@ -1161,28 +1165,39 @@ public class DBOperations {
         }   
     }
     
-    public  static Vector<Vector> getNotiTableAsResponsible(int userID){
+    public  static Object[] getNotiTableAsResponsible(int userID){
         try {
             con1=DriverManager.getConnection(url, username, password);
             String quary="SELECT * FROM notification WHERE userID="+userID+" AND userCheck=0";
             pst1=(PreparedStatement) con1.prepareStatement(quary);
             rs1=pst1.executeQuery();
             
+            ArrayList<Integer[]> columnData=new ArrayList<Integer[]>();
             Vector<Vector> set=new Vector<Vector>();
+            
             while(rs1.next()){
+                Integer[] row1=new Integer[3];
+                row1[0]=rs1.getInt(1);
+                row1[1]=rs1.getInt(2);  
+                row1[2]=0;//this will be 1 if should select asObserverTable
                 Vector<Object> row=new Vector<Object>();
                 if (rs1.getString(3).equals("insert")){
                     row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" mention you as responsible for the ObservationID : "+rs1.getInt(2));
                 }else if(rs1.getString(3).equals("update")){
                     row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" Update the ObservationID : "+rs1.getInt(2));
-                }else{
+                }else if(rs1.getString(3).equals("delete")){
                     row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" Delete the ObservationID : "+rs1.getInt(2));
+                }else{
+                    row1[2]=1;
+                    row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" Closed ZAP of ObservationID(as you observer): "+rs1.getInt(2));
                 }
-                row.addElement(rs1.getInt(1));
-                row.addElement(rs1.getInt(2));               
-                set.addElement(row);
-            } 
-            return set;
+                set.addElement(row);          
+                columnData.add(row1);
+            }
+            Object[] returnSet=new Object[2];
+            returnSet[0]=set;
+            returnSet[1]=columnData;
+            return returnSet;
         } catch (SQLException ex) {
             System.out.println(ex);
             return null;
@@ -1214,22 +1229,26 @@ public class DBOperations {
             ArrayList<Object> insert=new ArrayList<Object>();
             ArrayList<Object> update=new ArrayList<Object>();
             ArrayList<Object> delete=new ArrayList<Object>();
+            ArrayList<Object> zapClose=new ArrayList<Object>();
             while(rs1.next()){  
                 if (rs1.getString(3).equals("insert")){
                     insert.add(rs1.getInt(2));
                 }else if(rs1.getString(3).equals("update")){
                     update.add(rs1.getInt(2));
-                }else{
+                }else if(rs1.getString(3).equals("delete")){
                     delete.add(rs1.getInt(2));
-                } 
+                }else{
+                    zapClose.add(rs1.getInt(2));
+                }
                 String updateQuary="UPDATE notification SET sendToUser=1 WHERE notiID="+rs1.getInt(1);
                 pst1=(PreparedStatement) con1.prepareStatement(updateQuary);
                 pst1.executeUpdate();
             }
-            if(insert.size()>0 || update.size()>0 || delete.size()>0){
+            if(insert.size()>0 || update.size()>0 || delete.size()>0 || zapClose.size()>0){
                 set.add(insert);
                 set.add(update);
                 set.add(delete);
+                set.add(zapClose);
                 return set;
             }else{
                 return null;
@@ -1253,5 +1272,352 @@ public class DBOperations {
                 System.out.println(ex);
             }
         } 
+        
+          
+    }
+    
+    public static int getNotiCountAsResponsible(int userID){
+        try {
+            con1=DriverManager.getConnection(url, username, password);
+            String quary="SELECT COUNT(*) FROM notification WHERE userID="+userID+" AND userCheck=0";
+            pst1=(PreparedStatement) con1.prepareStatement(quary);
+            rs1=pst1.executeQuery();
+            
+            rs1.next();
+            return rs1.getInt(1);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return -1;
+        }
+        finally {
+            try {
+                if (pst1 != null) {
+                    pst1.close();
+                }
+                
+                if (con1 != null) {
+                    con1.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        } 
+    }  
+    
+    public boolean removeNotiAfterResCheck(int notiID,int userID){
+        try {
+            con=DriverManager.getConnection(url, this.username, this.password);
+            String quary="UPDATE notification SET userCheck=1 WHERE userID="+userID+" AND notiID="+notiID;
+            pst=(PreparedStatement) con.prepareStatement(quary);
+            pst.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;//Exception
+        }finally {
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }   
+    }
+    
+    public  static ArrayList<ArrayList<Object>> getPopupAlertAsAdmin(int adminID){
+        try { 
+            con1=DriverManager.getConnection(url, username, password);
+            String quary="SELECT * FROM notification WHERE sendToAdmin=0";
+            pst1=(PreparedStatement) con1.prepareStatement(quary);
+            rs1=pst1.executeQuery();
+            
+            
+            ArrayList<ArrayList<Object>> set=new ArrayList<ArrayList<Object>>();
+            ArrayList<Object> insert=new ArrayList<Object>();
+            ArrayList<Object> update=new ArrayList<Object>();
+            ArrayList<Object> delete=new ArrayList<Object>();
+            ArrayList<Object> zapClose=new ArrayList<Object>();
+            
+            ArrayList<Object> otherInsert=new ArrayList<Object>();
+            ArrayList<Object> otherUpdate=new ArrayList<Object>();
+            ArrayList<Object> otherDelete=new ArrayList<Object>();
+            ArrayList<Object> otherZapClose=new ArrayList<Object>();
+            while(rs1.next()){  
+                if (rs1.getString(3).equals("insert")){
+                    if(rs1.getInt(4)==adminID){
+                        insert.add(rs1.getInt(2));
+                    }else{
+                        otherInsert.add(rs1.getInt(2));
+                    }
+                }else if(rs1.getString(3).equals("update")){
+                    if(rs1.getInt(4)==adminID){
+                        update.add(rs1.getInt(2));
+                    }else{
+                        otherUpdate.add(rs1.getInt(2));
+                    }
+                }else if(rs1.getString(3).equals("delete")){
+                    if(rs1.getInt(4)==adminID){
+                        delete.add(rs1.getInt(2));
+                    }else{
+                        otherDelete.add(rs1.getInt(2));
+                    }    
+                }else{
+                    if(rs1.getInt(4)==adminID){
+                        zapClose.add(rs1.getInt(2));
+                    }else{
+                        otherZapClose.add(rs1.getInt(2));
+                    } 
+                } 
+                String updateQuary="UPDATE notification SET sendToAdmin=1 WHERE notiID="+rs1.getInt(1);
+                pst1=(PreparedStatement) con1.prepareStatement(updateQuary);
+                pst1.executeUpdate();
+            }
+            if(insert.size()>0 || update.size()>0 || delete.size()>0 || zapClose.size()>0 || otherInsert.size()>0 || otherUpdate.size()>0 || otherDelete.size()>0 || otherZapClose.size()>0){
+                set.add(insert);
+                set.add(update);
+                set.add(delete);
+                set.add(zapClose);
+                set.add(otherInsert);
+                set.add(otherUpdate);
+                set.add(otherDelete);
+                set.add(otherZapClose);
+                return set;
+            }else{
+                return null;
+            }
+            
+            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        }
+        finally {
+            try {
+                if (pst1 != null) {
+                    pst1.close();
+                }
+                
+                if (con1 != null) {
+                    con1.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        } 
+    }
+    
+    public static int getNotiCountAsAdmin(int userID){
+        try {
+            con1=DriverManager.getConnection(url, username, password);
+            String quary="SELECT COUNT(*) FROM notification WHERE adminCheck=0 AND eventUserID!="+userID;
+            pst1=(PreparedStatement) con1.prepareStatement(quary);
+            rs1=pst1.executeQuery();
+            
+            rs1.next();
+            return rs1.getInt(1);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return -1;
+        }
+        finally {
+            try {
+                if (pst1 != null) {
+                    pst1.close();
+                }
+                if (con1 != null) {
+                    con1.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        } 
+    }
+    
+    public  static Object[] getNotiTableAsAdmin(int userID){
+        try {
+            con1=DriverManager.getConnection(url, username, password);
+            String quary="SELECT * FROM notification WHERE adminCheck=0 AND eventUserID!="+userID;
+            pst1=(PreparedStatement) con1.prepareStatement(quary);
+            rs1=pst1.executeQuery();
+            
+            ArrayList<Integer[]> columnData=new ArrayList<Integer[]>();
+            Vector<Vector> set=new Vector<Vector>();
+            
+            while(rs1.next()){
+                Integer[] row1=new Integer[3];
+                row1[0]=rs1.getInt(1);
+                row1[1]=rs1.getInt(2);
+                row1[2]=2;//if admin as responsible this flag will be 1
+                Vector<Object> row=new Vector<Object>();
+                if (rs1.getString(3).equals("insert")){
+                    if(rs1.getInt(4)==userID){
+                        row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" mention you as responsible for the ObservationID : "+rs1.getInt(2));
+                        row1[2]=0;
+                    }else{
+                        row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" mention "+MainFrame.userMap.get(rs1.getInt(4))+" as responsible for the ObservationID : "+rs1.getInt(2));
+                    }
+                }else if(rs1.getString(3).equals("update")){
+                    if(rs1.getInt(4)==userID){
+                        row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" Update the ObservationID(as you responsible) : "+rs1.getInt(2));
+                        row1[2]=0;
+                    }else{
+                        row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" Update the ObservationID : "+rs1.getInt(2));
+                    }
+                }else if(rs1.getString(3).equals("delete")){
+                    if(rs1.getInt(4)==userID){
+                        row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" Delete the ObservationID(as you responsible) : "+rs1.getInt(2));
+                        row1[2]=0;
+                    }else{
+                        row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" Delete the ObservationID : "+rs1.getInt(2));
+                    }
+                }else{
+                    if(rs1.getInt(4)==userID){
+                        row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" Closed ZAP of ObservationID(as you observer) : "+rs1.getInt(2));
+                        row1[2]=1;
+                    }else{
+                        row.addElement(MainFrame.userMap.get(rs1.getInt(9))+" Closed ZAP of ObservationID : "+rs1.getInt(2));
+                    }
+                }
+                set.addElement(row);            
+                columnData.add(row1);
+            }
+            Object[] returnSet=new Object[2];
+            returnSet[0]=set;
+            returnSet[1]=columnData;
+            return returnSet;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return null;
+        }
+        finally {
+            try {
+                if (pst1 != null) {
+                    pst1.close();
+                }
+                if (con1 != null) {
+                    con1.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        } 
+    }
+    
+    public boolean removeNotiAfterAdminCheck1(int notiID){
+        try {
+            con=DriverManager.getConnection(url, this.username, this.password);
+            String quary="UPDATE notification SET adminCheck=1 WHERE notiID="+notiID;
+            pst=(PreparedStatement) con.prepareStatement(quary);
+            pst.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;//Exception
+        }finally {
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }   
+    }
+    
+    public boolean removeNotiAfterAdminCheck2(int notiID){
+        try {
+            con=DriverManager.getConnection(url, this.username, this.password);
+            String quary="UPDATE notification SET userCheck=1,adminCheck=1 WHERE notiID="+notiID;
+            pst=(PreparedStatement) con.prepareStatement(quary);
+            pst.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;//Exception
+        }finally {
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }   
+    }
+    
+    public int zapClose(int obID){
+        try {
+            con=DriverManager.getConnection(url, username, password);
+            String quary="SELECT * FROM action WHERE observationID="+obID;
+            pst=(PreparedStatement) con.prepareStatement(quary);
+            rs=pst.executeQuery();
+            
+            int[] countArray={0,0};       
+            while(rs.next()){
+                if(rs.getString(2).equals("Close")){
+                    countArray[0]++;
+                }
+                countArray[1]++;
+            }
+            if(countArray[0]==countArray[1]){
+                String quary1="UPDATE observation SET zapStatus='Close' WHERE observationID="+obID;
+                pst=(PreparedStatement) con.prepareStatement(quary1);
+                pst.executeUpdate();
+                return 0;
+            }else{
+                return 1;
+            }
+                
+        }catch (SQLException ex) {
+            System.out.println(ex);
+            return 2;
+        }
+        finally {
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }   
+    }
+    
+    public boolean zapCloseNoti(int obID,int userID,int eventUserID){
+        try {
+            con=DriverManager.getConnection(url, this.username, this.password);
+            String quary="INSERT INTO notification VALUES("+null+","+obID+",'zapclose',"+userID+",0,0,0,0,"+eventUserID+")";
+            pst=(PreparedStatement) con.prepareStatement(quary);
+            pst.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;//Exception
+        }finally {
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
     }
 }

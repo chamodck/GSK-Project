@@ -8,29 +8,36 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author chamod
+ * @author sumi
  */
 public class MainFrame extends javax.swing.JFrame {
     static boolean isRestart=false;
+    
     DBOperations dbOps=new DBOperations();
     static HashMap<Integer,String> userMap;
+
     
     public MainFrame() {
         initComponents();
         userMap=dbOps.getUserHasMap();
-        int result=dbOps.isAdmin();
+        int result=dbOps.isAdmin();//if login user is admin then it will return 1
         
         if(result==0){
-            btnAdmin.hide();
+            btnAdmin.hide();//This is login as another user. so ned to hide the administartive previliages.
         }
         else if (result!=1){
             JOptionPane.showMessageDialog(this,"Error occured while check isAdmin!");
         }
         
-        lblCurrentUser.setText(GskProject.currentUser + "(" + GskProject.currentUserID + ")");
-        lblDate.setText(DateTime.getDate());
-        
-        setIcon();
+        User user=dbOps.getCurrentUser();//get the current user
+        if(user!=null){
+            /*set the current login user and set his name and user id in the label*/
+            lblCurrentUser.setText(GskProject.currentUser + "(" + user.getUserID() + ")");
+            lblDate.setText(DateTime.getDate());//set the login user in the label
+        }else{
+            JOptionPane.showMessageDialog(this,"Error occured while getCurrentUser");
+        } 
+        setIcon();// this is the method create for icon
     }
 
     /**
@@ -222,11 +229,11 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(btnAdmin)
-                        .addGap(49, 49, 49)
+                        .addGap(39, 39, 39)
                         .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(55, 55, 55)
                         .addComponent(btnNotification)
-                        .addGap(48, 48, 48)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3)
                         .addGap(54, 54, 54)
                         .addComponent(jButton4)
@@ -271,10 +278,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnNotificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificationActionPerformed
         Notification notification=new Notification();
-        notification.setVisible(true); 
+        notification.setVisible(true);
     }//GEN-LAST:event_btnNotificationActionPerformed
 
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
+
         Admin admin = new Admin();
         admin.setVisible(true);
     }//GEN-LAST:event_btnAdminActionPerformed
@@ -282,6 +290,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         NewCase newCase=new NewCase();
         newCase.setVisible(true);
+      
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -344,7 +353,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //open the pdf file for get the help
         try {
-            String cmds[] = new String[]{"cmd", "/c","C:\\Users\\chamod\\Documents\\NetBeansProjects\\GskProject\\src\\help\\UserManual.pdf"};
+            String cmds[] = new String[]{"cmd", "/c","F:\\pro\\BK\\2011-11-17\\GskProject\\src\\help\\UserManual.pdf"};
             Runtime.getRuntime().exec(cmds);
         } catch (Exception e) {
             System.out.println(e);
@@ -388,7 +397,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdmin;
-    private javax.swing.JButton btnNotification;
+    public static javax.swing.JButton btnNotification;
     private java.awt.Canvas canvas1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

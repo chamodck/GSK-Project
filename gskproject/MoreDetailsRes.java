@@ -30,6 +30,7 @@ public class MoreDetailsRes extends javax.swing.JFrame {
     public static int observationID;
     public static String accidentType;
     public static int departmentID;
+    public static int observerID;
     public static int x;
     public static int y;
     
@@ -45,6 +46,7 @@ public class MoreDetailsRes extends javax.swing.JFrame {
     void setFields(Vector<Object> ob){
         int count=0;
         int index=0;
+        observerID=Integer.parseInt(ob.get(5).toString());
         for(User u:userList){
             ddObserver.addItem(u.getUsername());
             if(u.getUserID()!=Integer.parseInt(ob.get(5).toString())){

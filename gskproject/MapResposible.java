@@ -90,7 +90,7 @@ public class MapResposible extends javax.swing.JFrame {
     }
         
     public void ImportImage(int map) throws IOException {   
-        String pic =("C:\\Users\\chamod\\Documents\\NetBeansProjects\\GskProject\\src\\Images\\"+map+".jpg");
+        String pic =("C:\\Users\\sumi\\Desktop\\project codes\\Iteration5\\GskProject\\src\\Images\\"+map+".jpg");
         File imagefile = new File(pic);
         image = ImageIO.read(imagefile);
         Graphics2D g =image.createGraphics();
@@ -124,6 +124,7 @@ public class MapResposible extends javax.swing.JFrame {
         ddColor = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Map For Responsible Party");
         setPreferredSize(new java.awt.Dimension(1106, 652));
 
         lblMap.setPreferredSize(new java.awt.Dimension(500, 500));
@@ -172,6 +173,11 @@ public class MapResposible extends javax.swing.JFrame {
         });
 
         ddDepartment.setEnabled(false);
+        ddDepartment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ddDepartmentActionPerformed(evt);
+            }
+        });
 
         ddColor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "First Aid", "LTI", "Near Miss", "Eraser" }));
         ddColor.setEnabled(false);
@@ -267,6 +273,10 @@ public class MapResposible extends javax.swing.JFrame {
         ddDepartment.setEnabled(true);
         ddColor.setEnabled(true);
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void ddDepartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddDepartmentActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ddDepartmentActionPerformed
 
     /**
      * @param args the command line arguments
